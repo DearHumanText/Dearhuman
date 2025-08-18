@@ -3,131 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DearHuman – Emotionally Intelligent Messages</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
+  <title>DearHuman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #f9fafb, #e0f2f1);
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #fefefe, #eef2f3);
+      color: #222;
     }
-    .container {
-      max-width: 800px;
-      margin: 60px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+
+    header {
+      padding: 4rem 1rem 2rem;
       text-align: center;
+      background: linear-gradient(to right, #c6d0ff, #f2f6ff);
     }
-    h2 {
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
       font-size: 1.25rem;
-      font-weight: 400;
-      color: #666;
-      text-align: center;
-      margin-bottom: 30px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto;
     }
-    label, select, textarea {
+
+    main {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    }
+
+    form label {
       display: block;
-      width: 100%;
-      font-size: 1rem;
-      margin-bottom: 20px;
+      margin-top: 1.5rem;
+      font-weight: 600;
     }
-    textarea {
-      height: 140px;
-      padding: 12px;
-      border-radius: 8px;
+
+    textarea, select {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
       border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 0.5rem;
       resize: vertical;
     }
-    select {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background: #fff;
-    }
-    button {
-      width: 100%;
-      background: #1e88e5;
+
+    .cta {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 1rem 2rem;
+      background-color: #4469e0;
       color: white;
-      padding: 14px;
-      font-size: 1.1rem;
-      border: none;
+      text-decoration: none;
+      font-weight: bold;
       border-radius: 8px;
-      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.3s ease;
     }
-    button:hover {
-      background: #1565c0;
+
+    .cta:hover {
+      background-color: #2f51b9;
     }
+
+    .testimonials {
+      margin-top: 4rem;
+      padding: 2rem 1rem;
+      background: #f8f9fb;
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
     .testimonial {
-      background: #f1f8f9;
-      padding: 18px;
-      margin-top: 40px;
-      border-left: 4px solid #00acc1;
-      border-radius: 8px;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      text-align: center;
       font-style: italic;
     }
-    .footer {
+
+    footer {
       text-align: center;
-      margin-top: 40px;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
-      color: #888;
+      color: #777;
     }
-    .footer a {
-      color: #1e88e5;
-      text-decoration: none;
-      margin: 0 6px;
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .cta {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <header>
     <h1>DearHuman</h1>
-    <h2>Say what you feel — beautifully. We’ll help.</h2>
+    <p>Struggling to find the right words? Let us write your message — breakup, apology, confrontation, or closure — with empathy, clarity, and the tone you choose.</p>
+  </header>
 
-    <label for="tone">What tone should the message have?</label>
-    <select id="tone">
-      <option value="kind">Kind</option>
-      <option value="honest">Honest</option>
-      <option value="funny">Funny</option>
-      <option value="direct">Direct</option>
-      <option value="supportive">Supportive</option>
-    </select>
+  <main>
+    <form>
+      <label for="situation">What's the situation?</label>
+      <textarea id="situation" rows="5" placeholder="Tell us what’s going on... (e.g., 'I need to break up with my long-distance boyfriend but I don’t want to hurt him')"></textarea>
 
-    <label for="situation">Tell us what you're going through:</label>
-    <textarea id="situation" placeholder="Write about the situation or the message you need help crafting..."></textarea>
+      <label for="tone">What tone do you want?</label>
+      <select id="tone">
+        <option value="warm">Warm & Supportive</option>
+        <option value="direct">Direct & Honest</option>
+        <option value="funny">Light & Playful</option>
+        <option value="emotional">Emotional & Heartfelt</option>
+        <option value="professional">Professional & Calm</option>
+      </select>
 
-    <a href="https://dearhumantext.gumroad.com/l/message" target="_blank">
-      <button>Get Your Message</button>
-    </a>
+      <a href="https://dearhumantext.gumroad.com/l/dearhuman" class="cta" target="_blank">Get Your Message ($5)</a>
+    </form>
+  </main>
 
-    <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">
-      No personal info collected. You’re in control.
-    </p>
+  <section class="testimonials">
+    <h2>Real People, Real Words</h2>
+    <div class="testimonial">“I avoided a major fight because this response helped me say what I actually meant. Totally worth it.”</div>
+    <div class="testimonial">“The breakup message was exactly what I wanted to say, but didn’t know how. Thank you.”</div>
+    <div class="testimonial">“I used this to write to my estranged sibling after 4 years. The message worked — we’re talking again.”</div>
+  </section>
 
-    <div class="testimonial">
-      “I was stuck on how to apologize after a tough conversation. DearHuman gave me the perfect message. It sounded like me — just better.”<br/><br/>
-      — Jordan, Chicago
-    </div>
-
-    <div class="testimonial">
-      “I used it to break up with someone and it was the most respectful and clear message I could have hoped for.”<br/><br/>
-      — Taylor, LA
-    </div>
-
-    <div class="footer">
-      <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Contact</a>
-    </div>
-  </div>
+  <footer>
+    © 2025 DearHuman. All rights reserved.
+  </footer>
 </body>
 </html>
