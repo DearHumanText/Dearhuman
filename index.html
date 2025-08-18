@@ -2,115 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="DearHuman helps you write emotionally intelligent messages for life’s toughest moments." />
-  <title>DearHuman</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DearHuman – Emotionally Intelligent Messages</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
   <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f4f4f7;
+      padding: 0;
+      background: linear-gradient(135deg, #f9fafb, #e0f2f1);
       color: #333;
     }
-    header {
-      background: #4a4aef;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    header h1 {
-      font-size: 2.25rem;
-      margin-bottom: 0.5rem;
-    }
-    header p {
-      font-size: 1.125rem;
-      margin: 0;
-    }
     .container {
-      max-width: 700px;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 30px;
       background: white;
-      margin: 3rem auto;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
-    .container h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-align: center;
     }
-    .container p {
-      font-size: 1rem;
-      line-height: 1.6;
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: #666;
+      text-align: center;
+      margin-bottom: 30px;
     }
-    form {
-      margin-top: 2rem;
-    }
-    label {
+    label, select, textarea {
       display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-    input, textarea {
       width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1.25rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
       font-size: 1rem;
+      margin-bottom: 20px;
     }
-    .cta a, button {
-      background: #4a4aef;
+    textarea {
+      height: 140px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    button {
+      width: 100%;
+      background: #1e88e5;
       color: white;
-      padding: 0.75rem 1.5rem;
+      padding: 14px;
+      font-size: 1.1rem;
       border: none;
       border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
       cursor: pointer;
-      display: inline-block;
-      font-size: 1rem;
     }
-    .cta a:hover, button:hover {
-      background: #3737cc;
+    button:hover {
+      background: #1565c0;
+    }
+    .testimonial {
+      background: #f1f8f9;
+      padding: 18px;
+      margin-top: 40px;
+      border-left: 4px solid #00acc1;
+      border-radius: 8px;
+      font-style: italic;
     }
     .footer {
       text-align: center;
-      margin: 3rem 0 1rem;
-      font-size: 0.85rem;
+      margin-top: 40px;
+      font-size: 0.9rem;
       color: #888;
+    }
+    .footer a {
+      color: #1e88e5;
+      text-decoration: none;
+      margin: 0 6px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>DearHuman</h1>
-    <p>Emotionally intelligent messages for life’s toughest moments.</p>
-  </header>
-
   <div class="container">
-    <h2>Send a message when you don’t know how to say it.</h2>
-    <p>DearHuman helps you craft thoughtful, honest messages for breakups, apologies, tough conversations, and more. Just tell us what happened — we’ll write the message for you.</p>
+    <h1>DearHuman</h1>
+    <h2>Say what you feel — beautifully. We’ll help.</h2>
 
-    <form action="https://dearhuman2.gumroad.com/l/vhojdo" method="get">
-      <label for="situation">What happened?</label>
-      <textarea id="situation" name="situation" placeholder="Briefly describe your situation..." required></textarea>
+    <label for="tone">What tone should the message have?</label>
+    <select id="tone">
+      <option value="kind">Kind</option>
+      <option value="honest">Honest</option>
+      <option value="funny">Funny</option>
+      <option value="direct">Direct</option>
+      <option value="supportive">Supportive</option>
+    </select>
 
-      <label for="tone">What tone do you want the message to have?</label>
-      <input id="tone" name="tone" type="text" placeholder="e.g., kind, firm, apologetic, warm" required>
+    <label for="situation">Tell us what you're going through:</label>
+    <textarea id="situation" placeholder="Write about the situation or the message you need help crafting..."></textarea>
 
-      <label for="recipient">Who is the message for?</label>
-      <input id="recipient" name="recipient" type="text" placeholder="e.g., my ex, a coworker, my friend" required>
+    <a href="https://dearhumantext.gumroad.com/l/message" target="_blank">
+      <button>Get Your Message</button>
+    </a>
 
-      <button type="submit">Get Your Message →</button>
-    </form>
-  </div>
+    <p style="font-size: 0.85rem; color: #666; margin-top: 8px; text-align: center;">
+      No personal info collected. You’re in control.
+    </p>
 
-  <div class="footer">
-    &copy; 2025 DearHuman. Built for real humans.
+    <div class="testimonial">
+      “I was stuck on how to apologize after a tough conversation. DearHuman gave me the perfect message. It sounded like me — just better.”<br/><br/>
+      — Jordan, Chicago
+    </div>
+
+    <div class="testimonial">
+      “I used it to break up with someone and it was the most respectful and clear message I could have hoped for.”<br/><br/>
+      — Taylor, LA
+    </div>
+
+    <div class="footer">
+      <a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Contact</a>
+    </div>
   </div>
 </body>
 </html>
-
