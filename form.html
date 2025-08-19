@@ -181,23 +181,19 @@
   </form>
 
   <script>
-    const gumroadLinks = {
-      basic: 'https://dearhuman2.gumroad.com/l/your-basic-product-id',
-      premium: 'https://dearhuman2.gumroad.com/l/your-premium-product-id',
-      unlimited: 'https://dearhuman2.gumroad.com/l/your-unlimited-product-id'
-    };
+  const form = document.querySelector("form");
+  const buttons = document.querySelectorAll("button[type='submit']");
 
-    function goToGumroad(plan) {
-      const form = document.getElementById('message-form');
-      const messageFor = encodeURIComponent(form.message_for.value);
-      const whatToSay = encodeURIComponent(form.what_to_say.value);
-      const tone = encodeURIComponent(form.tone.value);
-      const goal = encodeURIComponent(form.goal.value);
-
-      const url = `${gumroadLinks[plan]}?message_for=${messageFor}&what_to_say=${whatToSay}&tone=${tone}&goal=${goal}`;
-      window.location.href = url;
-    }
-  </script>
+  buttons.forEach(button => {
+    button.addEventListener("click", function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const params = new URLSearchParams(formData).toString();
+      const link = button.getAttribute("data-link");
+      window.location.href = `${link}?${params}`;
+    });
+  });
+</script>
 
 </body>
 </html>
