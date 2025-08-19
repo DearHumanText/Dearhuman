@@ -1,93 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Get Your Message – DearHuman</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <meta charset="UTF‑8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Tell Us Your Message — DearHuman</title>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     :root {
       --accent: #FF6B6B;
+      --bg-light: #f9fafb;
+      --bg-white: #ffffff;
+      --text-dark: #333;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
     body {
       font-family: 'Inter', sans-serif;
-      background: #f9fafb;
-      color: #333;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
       padding: 2rem;
+      min-height: 100vh;
     }
     .container {
-      max-width: 700px;
-      margin: auto;
-      background: white;
+      width: 100%;
+      max-width: 600px;
+      background: var(--bg-white);
+      padding: 2rem;
       border-radius: 12px;
-      padding: 2.5rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
     }
     h1 {
+      text-align: center;
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #222;
-      text-align: center;
     }
     p {
       text-align: center;
-      margin-bottom: 2rem;
       color: #555;
+      margin-bottom: 1.5rem;
     }
     label {
-      font-weight: 600;
       display: block;
-      margin-top: 1.5rem;
+      font-weight: 600;
+      margin-top: 1rem;
       margin-bottom: 0.5rem;
     }
-    input, textarea, select {
+    input, select, textarea {
       width: 100%;
       padding: 0.75rem;
-      font-size: 1rem;
-      border-radius: 6px;
       border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
     }
-    textarea {
-      min-height: 100px;
-      resize: vertical;
+    input:invalid, textarea:invalid, select:invalid {
+      border-color: #e55a5a;
     }
     .plans {
-      margin-top: 2rem;
-      padding: 1.5rem;
       background: #f1f5f9;
       border-radius: 8px;
-    }
-    .plans h3 {
-      margin-bottom: 1rem;
-      color: #444;
+      padding: 1.5rem;
+      margin-top: 2rem;
     }
     .plans ul {
-      list-style: disc;
-      padding-left: 1.5rem;
-      color: #444;
+      list-style: none;
+      padding: 0;
+    }
+    .plans li {
+      margin-bottom: 0.75rem;
+    }
+    .plans span {
+      font-weight: 600;
     }
     .cta {
       margin-top: 2rem;
       text-align: center;
     }
-    .cta a button {
+    .cta button {
       background: var(--accent);
       color: white;
-      padding: 0.9rem 2rem;
+      padding: 1rem 2rem;
       font-size: 1.1rem;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.3s;
     }
-    .cta a button:hover {
+    .cta button:hover {
       background: #e55a5a;
     }
     footer {
-      margin-top: 3rem;
       text-align: center;
-      font-size: 0.9rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
       color: #aaa;
     }
   </style>
@@ -95,50 +102,39 @@
 <body>
 
   <div class="container">
-    <h1>Tell Us What You Need</h1>
-    <p>Answer a few quick questions so we can craft the perfect message, just for you.</p>
+    <h1>We Need a Few Details</h1>
+    <p>Answer a couple of questions so we can personalize your message just for you.</p>
 
     <form>
-      <label for="situation">What’s this message about?</label>
-      <textarea id="situation" placeholder="Describe what you're trying to communicate..."></textarea>
+      <label for="situation">What's the situation?</label>
+      <textarea id="situation" required placeholder="e.g. I need to apologize to a friend."></textarea>
 
-      <label for="recipient">Who is this message for?</label>
-      <input type="text" id="recipient" placeholder="e.g. My ex-partner, my boss, my best friend" />
-
-      <label for="goal">What do you want the outcome to be?</label>
-      <textarea id="goal" placeholder="e.g. Closure, apology, boundary setting, breakup, etc."></textarea>
-
-      <label for="tone">Preferred tone?</label>
-      <select id="tone">
-        <option value="empathetic">Empathetic</option>
-        <option value="direct">Direct</option>
-        <option value="professional">Professional</option>
-        <option value="lighthearted">Lighthearted</option>
-        <option value="serious">Serious</option>
-        <option value="custom">Other</option>
+      <label for="tone">How should it sound?</label>
+      <select id="tone" required>
+        <option value="">Choose a tone...</option>
+        <option>Compassionate</option>
+        <option>Empathetic</option>
+        <option>Firm but kind</option>
+        <option>Professional</option>
       </select>
 
-      <label for="extra">Anything else we should know?</label>
-      <textarea id="extra" placeholder="Feel free to share any specific words or style you want used."></textarea>
+      <div class="plans">
+        <h3>Choose Your Plan</h3>
+        <ul>
+          <li><span>$7.99</span> – One crafted message</li>
+          <li><span>$12.99</span> – Two tone options</li>
+        </ul>
+      </div>
+
+      <div class="cta">
+        <a href="https://dearhuman2.gumroad.com/l/vhojdo">
+          <button type="button">Continue to Payment</button>
+        </a>
+      </div>
     </form>
 
-    <div class="plans">
-      <h3>Choose Your Plan</h3>
-      <ul>
-        <li><strong>$7:</strong> One thoughtful message tailored to your situation</li>
-        <li><strong>$12:</strong> Includes 2 versions with different tones or approaches</li>
-        <li><strong>$20:</strong> Includes 2 versions + priority delivery in under 24 hours</li>
-      </ul>
-    </div>
-
-    <div class="cta">
-      <a href="https://dearhuman2.gumroad.com/l/vhojdo"><button>Continue to Payment</button></a>
-    </div>
+    <footer>&copy; 2025 DearHuman. Your words, thoughtfully delivered.</footer>
   </div>
-
-  <footer>
-    &copy; 2025 DearHuman. Your words. Thoughtfully delivered.
-  </footer>
 
 </body>
 </html>
