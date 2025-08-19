@@ -3,202 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Customize Your Message</title>
+  <title>Get Your Message – DearHuman</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     :root {
-      --accent: #FF6B6B;
-      --bg: linear-gradient(135deg, #6e8efb, #a777e3);
+      --accent: #8c72ff;
     }
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
-
     body {
       font-family: 'Inter', sans-serif;
-      background: #f9fafb;
+      background: linear-gradient(to bottom right, #8c72ff, #a58af9);
       color: #333;
+      padding: 2rem;
     }
-
-    .header {
-      background: var(--bg);
-      color: white;
-      padding: 3rem 1rem;
-      text-align: center;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .header p {
-      font-size: 1.2rem;
-      opacity: 0.95;
-    }
-
-    .form-container {
+    .container {
       max-width: 700px;
-      margin: 3rem auto;
+      margin: auto;
       background: white;
-      padding: 2rem 2.5rem;
       border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
-
-    .form-group {
-      margin-bottom: 1.5rem;
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #222;
     }
-
+    p {
+      text-align: center;
+      color: #555;
+      margin-bottom: 2rem;
+    }
     label {
       display: block;
       font-weight: 600;
+      margin-top: 1.2rem;
       margin-bottom: 0.5rem;
     }
-
-    input, textarea, select {
+    input, select {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1rem;
     }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .plans {
-      margin-top: 2.5rem;
-    }
-
-    .plans h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .plan-options {
+    .button-group {
       display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
     }
-
-    .plan {
-      flex: 1 1 250px;
-      background: #f1f5f9;
-      border-radius: 10px;
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    }
-
-    .plan h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.4rem;
-    }
-
-    .plan p {
-      font-size: 0.95rem;
-      margin-bottom: 1rem;
-    }
-
-    .plan button {
+    button {
       background: var(--accent);
       color: white;
+      padding: 1rem;
       border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 5px;
+      border-radius: 8px;
       font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.2s ease;
     }
-
-    .plan button:hover {
-      background: #e55a5a;
+    button:hover {
+      background: #715eff;
     }
-
-    @media (max-width: 600px) {
-      .header h1 { font-size: 2rem; }
+    .plan-label {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    .plan-desc {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      color: #666;
+    }
+    .plan {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #f9f9f9;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Create Your Message</h1>
+    <p>Fill out the form below and choose a plan to receive your personalized message.</p>
 
-  <section class="header">
-    <h1>Let's Craft Your Message</h1>
-    <p>Answer a few quick questions and choose a plan to continue.</p>
-  </section>
-
-  <form class="form-container" id="message-form">
-    <div class="form-group">
+    <form id="message-form">
       <label for="message_for">Who is this message for?</label>
-      <input type="text" id="message_for" name="message_for" required>
-    </div>
-    <div class="form-group">
-      <label for="what_to_say">What do you want to say?</label>
-      <textarea id="what_to_say" name="what_to_say" required></textarea>
-    </div>
-    <div class="form-group">
-      <label for="tone">Preferred tone</label>
-      <select id="tone" name="tone" required>
-        <option value="">Select one</option>
-        <option value="Compassionate">Compassionate</option>
-        <option value="Direct">Direct</option>
-        <option value="Friendly">Friendly</option>
-        <option value="Professional">Professional</option>
-        <option value="Apologetic">Apologetic</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="goal">What outcome are you hoping for?</label>
-      <input type="text" id="goal" name="goal" required>
-    </div>
+      <input type="text" name="message_for" id="message_for" required />
 
-    <div class="plans">
-      <h2>Choose Your Plan</h2>
-      <div class="plan-options">
+      <label for="what_to_say">What do you want to say?</label>
+      <input type="text" name="what_to_say" id="what_to_say" required />
+
+      <label for="tone">Tone</label>
+      <select name="tone" id="tone" required>
+        <option value="">Select a tone</option>
+        <option value="gentle">Gentle</option>
+        <option value="funny">Funny</option>
+        <option value="bold">Bold</option>
+        <option value="romantic">Romantic</option>
+        <option value="serious">Serious</option>
+      </select>
+
+      <label for="goal">What's the goal of this message?</label>
+      <input type="text" name="goal" id="goal" required />
+
+      <div class="button-group">
         <div class="plan">
-          <h3>Basic</h3>
-          <p>One short message for one person</p>
-          <button type="button" onclick="goToGumroad('basic')">Get for $5</button>
+          <div class="plan-label">💬 Basic - $4</div>
+          <div class="plan-desc">One thoughtful, custom message.</div>
+          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/basic-message">Choose Basic</button>
         </div>
         <div class="plan">
-          <h3>Premium</h3>
-          <p>Longer message + revision request</p>
-          <button type="button" onclick="goToGumroad('premium')">Get for $10</button>
+          <div class="plan-label">✨ Premium - $10</div>
+          <div class="plan-desc">Includes 2 revisions and priority delivery.</div>
+          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/premium-message">Choose Premium</button>
         </div>
         <div class="plan">
-          <h3>Unlimited</h3>
-          <p>Multiple messages and unlimited revisions</p>
-          <button type="button" onclick="goToGumroad('unlimited')">Get for $20</button>
+          <div class="plan-label">🔥 Unlimited - $20</div>
+          <div class="plan-desc">Unlimited edits, fastest delivery, all tones unlocked.</div>
+          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/unlimited-message">Choose Unlimited</button>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
   <script>
-    const gumroadLinks = {
-      basic: 'https://dearhuman2.gumroad.com/l/your-basic-product-id',
-      premium: 'https://dearhuman2.gumroad.com/l/your-premium-product-id',
-      unlimited: 'https://dearhuman2.gumroad.com/l/your-unlimited-product-id'
-    };
+    const form = document.querySelector("#message-form");
+    const buttons = document.querySelectorAll("button[type='submit']");
 
-    function goToGumroad(plan) {
-      const form = document.getElementById('message-form');
-      const messageFor = encodeURIComponent(form.message_for.value);
-      const whatToSay = encodeURIComponent(form.what_to_say.value);
-      const tone = encodeURIComponent(form.tone.value);
-      const goal = encodeURIComponent(form.goal.value);
-
-      const url = `${gumroadLinks[plan]}?message_for=${messageFor}&what_to_say=${whatToSay}&tone=${tone}&goal=${goal}`;
-      window.location.href = url;
-    }
+    buttons.forEach(button => {
+      button.addEventListener("click", function (e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+        const link = button.getAttribute("data-link");
+        window.location.href = `${link}?${params}`;
+      });
+    });
   </script>
-
 </body>
 </html>
