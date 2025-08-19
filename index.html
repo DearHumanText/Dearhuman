@@ -54,19 +54,59 @@
       margin: auto;
     }
     .testimonials {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 1rem;
-    }
-    .testimonial {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      min-width: 300px;
-      scroll-snap-align: start;
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.testimonial {
+  background: #ffffff;
+  padding: 1.75rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  min-width: 300px;
+  max-width: 320px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s;
+}
+
+.testimonial:hover {
+  transform: translateY(-5px);
+}
+
+.testimonial p {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.testimonial .author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.testimonial .author img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial .author span {
+  font-weight: 600;
+  color: #111;
+}
+
     }
     .trust, footer {
       text-align: center;
@@ -95,13 +135,31 @@
   </section>
 
   <section class="section">
-    <h2>They Said It Best</h2>
-    <div class="testimonials">
-      <div class="testimonial">“This message helped me heal. It felt honest — and so did I.” — Jordan</div>
-      <div class="testimonial">“My breakup needs compassion. DearHuman helped me deliver it with care.” — Avery</div>
-      <div class="testimonial">“I needed to set boundaries. The words were exactly what I needed.” — Blake</div>
+  <h2 style="text-align:center; font-size: 2rem; margin-bottom: 2rem;">They Said It Best</h2>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p>“This message helped me heal. It felt honest — and so did I.”</p>
+      <div class="author">
+        <img src="https://i.pravatar.cc/50?img=12" alt="Jordan">
+        <span>Jordan</span>
+      </div>
     </div>
-  </section>
+    <div class="testimonial">
+      <p>“My breakup needed compassion. DearHuman helped me deliver it with care.”</p>
+      <div class="author">
+        <img src="https://i.pravatar.cc/50?img=16" alt="Avery">
+        <span>Avery</span>
+      </div>
+    </div>
+    <div class="testimonial">
+      <p>“I needed to set boundaries. The words were exactly what I needed.”</p>
+      <div class="author">
+        <img src="https://i.pravatar.cc/50?img=20" alt="Blake">
+        <span>Blake</span>
+      </div>
+    </div>
+  </div>
+</section>
 
   <section class="section">
     <h2>We Protect Your Privacy</h2>
