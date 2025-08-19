@@ -7,181 +7,130 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     :root {
-      --primary: #222;
       --accent: #FF6B6B;
-      --background: #fefefe;
-      --text: #333;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--background);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #333; }
     .hero {
       position: relative;
-      height: 100vh;
+      height: 60vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: white;
       background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: white;
       overflow: hidden;
     }
-
     .hero::before {
       content: '';
       position: absolute;
-      width: 200%;
-      height: 200%;
+      width: 200%; height: 200%;
       background: radial-gradient(circle, rgba(255,255,255,0.15) 20%, transparent 70%);
       animation: pulse 6s infinite linear;
     }
-
     @keyframes pulse {
-      0% { transform: translate(-25%, -25%) rotate(0deg); }
-      100% { transform: translate(-25%, -25%) rotate(360deg); }
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
-
-    .hero h1 {
-      font-size: 3rem;
-      z-index: 1;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      z-index: 1;
-    }
-
-    .cta-button {
-      background-color: var(--accent);
+    .hero h1 { font-size: 3rem; z-index: 1; }
+    .hero p { font-size: 1.2rem; margin-top: 1rem; z-index: 1; }
+    .cta { margin-top: 2rem; z-index: 1; }
+    .cta button {
+      background: var(--accent);
       color: white;
-      border: none;
       padding: 1rem 2rem;
-      margin-top: 2rem;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
-      z-index: 1;
+      transition: background 0.3s;
     }
-
+    .cta button:hover { background: #e55a5a; }
     .section {
       padding: 4rem 2rem;
       max-width: 1000px;
       margin: auto;
     }
-
-    .section h2 {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
     .testimonials {
       display: flex;
-      overflow-x: auto;
       gap: 1.5rem;
-      padding-bottom: 1rem;
+      overflow-x: auto;
       scroll-snap-type: x mandatory;
+      padding-bottom: 1rem;
     }
-
     .testimonial {
-      background: #fff;
+      background: white;
       padding: 1.5rem;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
       min-width: 300px;
-      flex: 0 0 auto;
       scroll-snap-align: start;
     }
-
-    .trust {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .trust img {
-      width: 100px;
-      height: auto;
-    }
-
-    footer {
+    .trust, footer {
       text-align: center;
-      padding: 2rem;
+      padding: 2rem 1rem;
       font-size: 0.9rem;
       color: #777;
     }
-
+    .trust { margin-top: 2rem; }
+    .trust img { width: 80px; margin: 0 1rem; vertical-align: middle; }
     @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .cta-button {
-        width: 100%;
-      }
+      .hero h1 { font-size: 2.25rem; }
+      .hero p { font-size: 1rem; }
     }
   </style>
   <!-- Plausible Analytics -->
-  <script async defer data-domain="dearhuman.gumroad.com" src="https://plausible.io/js/script.js"></script>
+  <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
   <section class="hero">
-    <div>
-      <h1>DearHuman: Messages That Speak for You</h1>
-      <p>Struggling to say what’s on your mind? Let us write it for you — breakup texts, apologies, difficult emotions handled with grace.</p>
-      <a href="https://dearhuman.gumroad.com/l/message"><button class="cta-button">Get Your Message Now</button></a>
+    <h1>DearHuman: Let Words Be Heard</h1>
+    <p>Not sure how to express a difficult message? We craft it with clarity, empathy, and your tone.</p>
+    <div class="cta">
+      <a href="https://dearhuman.gumroad.com/l/message"><button>Get Your Message Now</button></a>
     </div>
   </section>
 
   <section class="section">
-    <h2>Real People. Real Relief.</h2>
+    <h2>They Said It Best</h2>
     <div class="testimonials">
-      <div class="testimonial">
-        <strong>“I couldn’t find the words to end things… DearHuman helped me say it right.”</strong><br>– Ava, 32
-      </div>
-      <div class="testimonial">
-        <strong>“The apology message saved my relationship. 100% worth it.”</strong><br>– Marcus, 27
-      </div>
-      <div class="testimonial">
-        <strong>“I used it for a work conflict — so professional and thoughtful.”</strong><br>– Jess, 40
-      </div>
+      <div class="testimonial">“This message helped me heal. It felt honest — and so did I.” — Jordan</div>
+      <div class="testimonial">“My breakup needs compassion. DearHuman helped me deliver it with care.” — Avery</div>
+      <div class="testimonial">“I needed to set boundaries. The words were exactly what I needed.” — Blake</div>
     </div>
   </section>
 
   <section class="section">
-    <h2>Your Privacy Matters</h2>
-    <p style="text-align: center; max-width: 700px; margin: 0 auto;">
-      Every message is 100% confidential. We never store your data. Messages are generated and delivered securely — your words, your life, your privacy.
-    </p>
+    <h2>We Protect Your Privacy</h2>
+    <p>We don't store your messages. Your words are yours — generation and delivery are secure and confidential.</p>
     <div class="trust">
-      <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy">
-      <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted">
-      <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Encrypted">
+      <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy icon"/>
+      <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted service"/>
+      <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Secure message"/>
     </div>
   </section>
 
   <footer>
     &copy; 2025 DearHuman. All rights reserved.
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const container = document.querySelector('.testimonials');
+      if (!container) return;
+      let scrollAmount = 0;
+      const slideWidth = container.children[0].getBoundingClientRect().width + 24;
+      const speed = 4000;
+      setInterval(() => {
+        scrollAmount += slideWidth;
+        if (scrollAmount >= container.scrollWidth) scrollAmount = 0;
+        container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+      }, speed);
+    });
+  </script>
 
 </body>
 </html>
