@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     :root {
-      --accent: #8c72ff;
+      --accent: #FF6868;
     }
     * {
       box-sizing: border-box;
@@ -16,7 +16,7 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(to bottom right, #8c72ff, #a58af9);
+      background: #f9fafb;
       color: #333;
       padding: 2rem;
     }
@@ -26,7 +26,7 @@
       background: white;
       border-radius: 12px;
       padding: 2.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
     h1 {
       font-size: 2rem;
@@ -52,13 +52,13 @@
       border-radius: 8px;
       font-size: 1rem;
     }
-    .button-group {
+    .plan-buttons {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin-top: 2rem;
     }
-    button {
+    .plan-buttons button {
       background: var(--accent);
       color: white;
       padding: 1rem;
@@ -68,31 +68,15 @@
       cursor: pointer;
       transition: background 0.2s ease;
     }
-    button:hover {
-      background: #715eff;
-    }
-    .plan-label {
-      font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 0.25rem;
-    }
-    .plan-desc {
-      font-size: 0.95rem;
-      margin-bottom: 0.75rem;
-      color: #666;
-    }
-    .plan {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 1rem;
-      background: #f9f9f9;
+    .plan-buttons button:hover {
+      background: #e05555;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Create Your Message</h1>
-    <p>Fill out the form below and choose a plan to receive your personalized message.</p>
+    <h1>Get Your Message</h1>
+    <p>Answer a few quick questions and pick your plan to get started.</p>
 
     <form id="message-form">
       <label for="message_for">Who is this message for?</label>
@@ -114,22 +98,10 @@
       <label for="goal">What's the goal of this message?</label>
       <input type="text" name="goal" id="goal" required />
 
-      <div class="button-group">
-        <div class="plan">
-          <div class="plan-label">💬 Basic - $4</div>
-          <div class="plan-desc">One thoughtful, custom message.</div>
-          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/wnfrjl">Choose Basic</button>
-        </div>
-        <div class="plan">
-          <div class="plan-label">✨ Premium - $10</div>
-          <div class="plan-desc">Includes 2 revisions and priority delivery.</div>
-          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/neszg">Choose Premium</button>
-        </div>
-        <div class="plan">
-          <div class="plan-label">🔥 Unlimited - $20</div>
-          <div class="plan-desc">Unlimited edits, fastest delivery, all tones unlocked.</div>
-          <button type="submit" data-link="https://dearhuman2.gumroad.com/l/ekpmd">Choose Unlimited</button>
-        </div>
+      <div class="plan-buttons">
+        <button type="submit" data-link="https://dearhuman2.gumroad.com/l/wnfrjl">Choose Basic – $4</button>
+        <button type="submit" data-link="https://dearhuman2.gumroad.com/l/neszg">Choose Premium – $10</button>
+        <button type="submit" data-link="https://dearhuman2.gumroad.com/l/ekpmd">Choose Unlimited – $20</button>
       </div>
     </form>
   </div>
@@ -143,8 +115,8 @@
         e.preventDefault();
         const formData = new FormData(form);
         const params = new URLSearchParams(formData).toString();
-        const link = button.getAttribute("data-link");
-        window.location.href = `${link}?${params}`;
+        const gumroadURL = button.getAttribute("data-link");
+        window.location.href = `${gumroadURL}?${params}`;
       });
     });
   </script>
