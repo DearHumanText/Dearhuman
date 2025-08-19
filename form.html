@@ -1,140 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF‑8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Tell Us Your Message — DearHuman</title>
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Your Message – DearHuman</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
     :root {
       --accent: #FF6B6B;
-      --bg-light: #f9fafb;
-      --bg-white: #ffffff;
-      --text-dark: #333;
+      --bg: #f9fafb;
     }
-    * { box-sizing:border-box; margin:0; padding:0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+      background: var(--bg);
+      color: #333;
       padding: 2rem;
-      min-height: 100vh;
     }
+
     .container {
-      width: 100%;
-      max-width: 600px;
-      background: var(--bg-white);
-      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      padding: 3rem 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
+
     h1 {
+      font-size: 2.25rem;
       text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    p {
-      text-align: center;
-      color: #555;
       margin-bottom: 1.5rem;
+      color: #222;
     }
+
+    p.description {
+      text-align: center;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
     label {
-      display: block;
       font-weight: 600;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+      display: block;
     }
-    input, select, textarea {
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1rem;
     }
-    input:invalid, textarea:invalid, select:invalid {
-      border-color: #e55a5a;
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
     }
+
+    .section-title {
+      margin-top: 2rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #222;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+
     .plans {
-      background: #f1f5f9;
-      border-radius: 8px;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      justify-content: center;
+    }
+
+    .plan {
+      background: #f5f5f5;
+      border-radius: 12px;
+      flex: 1 1 220px;
       padding: 1.5rem;
-      margin-top: 2rem;
-    }
-    .plans ul {
-      list-style: none;
-      padding: 0;
-    }
-    .plans li {
-      margin-bottom: 0.75rem;
-    }
-    .plans span {
-      font-weight: 600;
-    }
-    .cta {
-      margin-top: 2rem;
       text-align: center;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
     }
-    .cta button {
+
+    .plan.popular {
+      border-color: var(--accent);
+      background: #fff4f4;
+      box-shadow: 0 0 0 4px #ffecec;
+    }
+
+    .plan h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .plan p {
+      color: #444;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .plan .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .plan button {
       background: var(--accent);
       color: white;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
+      padding: 0.75rem 1.5rem;
       border: none;
       border-radius: 6px;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s;
     }
-    .cta button:hover {
-      background: #e55a5a;
+
+    .plan button:hover {
+      background: #e45858;
     }
+
     footer {
       text-align: center;
-      margin-top: 2rem;
       font-size: 0.85rem;
-      color: #aaa;
+      color: #999;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .plans {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>We Need a Few Details</h1>
-    <p>Answer a couple of questions so we can personalize your message just for you.</p>
+    <h1>Let’s Personalize Your Message</h1>
+    <p class="description">Answer a few quick questions to help us craft your message just right.</p>
 
     <form>
-      <label for="situation">What's the situation?</label>
-      <textarea id="situation" required placeholder="e.g. I need to apologize to a friend."></textarea>
-
-      <label for="tone">How should it sound?</label>
-      <select id="tone" required>
-        <option value="">Choose a tone...</option>
-        <option>Compassionate</option>
-        <option>Empathetic</option>
-        <option>Firm but kind</option>
-        <option>Professional</option>
-      </select>
-
-      <div class="plans">
-        <h3>Choose Your Plan</h3>
-        <ul>
-          <li><span>$7.99</span> – One crafted message</li>
-          <li><span>$12.99</span> – Two tone options</li>
-        </ul>
+      <div>
+        <label for="situation">What are you trying to say?</label>
+        <input type="text" id="situation" placeholder="e.g. I want to break up, set a boundary, say sorry...">
       </div>
 
-      <div class="cta">
-        <a href="https://dearhuman2.gumroad.com/l/vhojdo">
-          <button type="button">Continue to Payment</button>
-        </a>
+      <div>
+        <label for="recipient">Who is the message for?</label>
+        <input type="text" id="recipient" placeholder="e.g. my ex, my friend, a coworker...">
+      </div>
+
+      <div>
+        <label for="tone">Choose a tone</label>
+        <select id="tone">
+          <option value="">Select a tone</option>
+          <option value="gentle">Gentle</option>
+          <option value="honest">Honest</option>
+          <option value="funny">Funny</option>
+          <option value="professional">Professional</option>
+          <option value="direct">Direct</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="details">What extra context should we know?</label>
+        <textarea id="details" placeholder="You can include any details, feelings, or background here."></textarea>
       </div>
     </form>
 
-    <footer>&copy; 2025 DearHuman. Your words, thoughtfully delivered.</footer>
+    <div class="section-title">Choose Your Plan</div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Basic</h3>
+        <p>One-time message crafted by our AI.</p>
+        <div class="price">$4</div>
+        <button onclick="window.location.href='https://dearhuman2.gumroad.com/l/vhojdo'">Choose</button>
+      </div>
+
+      <div class="plan popular">
+        <h3>Premium</h3>
+        <p>Includes 3 tone variations + edit request.</p>
+        <div class="price">$10</div>
+        <button onclick="window.location.href='https://dearhuman2.gumroad.com/l/vhojdo'">Most Popular</button>
+      </div>
+
+      <div class="plan">
+        <h3>Unlimited</h3>
+        <p>Unlimited revisions & variations for 30 days.</p>
+        <div class="price">$20</div>
+        <button onclick="window.location.href='https://dearhuman2.gumroad.com/l/vhojdo'">Choose</button>
+      </div>
+    </div>
   </div>
+
+  <footer>
+    &copy; 2025 DearHuman. All rights reserved.
+  </footer>
 
 </body>
 </html>
