@@ -3,136 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dear Human – Emotionally Intelligent Messages</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <title>DearHuman</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
+    :root {
+      --primary: #222;
+      --accent: #FF6B6B;
+      --background: #fefefe;
+      --text: #333;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
     }
 
     body {
-      background: linear-gradient(to right, #fdfbfb, #ebedee);
-      color: #333;
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      padding: 2rem;
-      text-align: center;
-      background: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    header h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      color: #666;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 3rem 1rem;
-    }
-
-    .card {
-      background: white;
-      max-width: 600px;
-      width: 100%;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.07);
-    }
-
-    .card h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
+      align-items: center;
       text-align: center;
+      color: white;
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      overflow: hidden;
     }
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      resize: none;
-      font-size: 1rem;
-      margin-bottom: 1rem;
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 20%, transparent 70%);
+      animation: pulse 6s infinite linear;
     }
 
-    select {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-bottom: 1rem;
+    @keyframes pulse {
+      0% { transform: translate(-25%, -25%) rotate(0deg); }
+      100% { transform: translate(-25%, -25%) rotate(360deg); }
     }
 
-    button {
-      background-color: #0077ff;
+    .hero h1 {
+      font-size: 3rem;
+      z-index: 1;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      z-index: 1;
+    }
+
+    .cta-button {
+      background-color: var(--accent);
       color: white;
       border: none;
-      padding: 1rem;
-      width: 100%;
-      font-size: 1.1rem;
-      border-radius: 8px;
+      padding: 1rem 2rem;
+      margin-top: 2rem;
+      font-size: 1rem;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      z-index: 1;
     }
 
-    button:hover {
-      background-color: #005fd4;
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonials {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.5rem;
+      padding-bottom: 1rem;
+      scroll-snap-type: x mandatory;
+    }
+
+    .testimonial {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      min-width: 300px;
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+
+    .trust {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .trust img {
+      width: 100px;
+      height: auto;
     }
 
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 2rem;
       font-size: 0.9rem;
-      color: #888;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .cta-button {
+        width: 100%;
+      }
     }
   </style>
+  <!-- Plausible Analytics -->
+  <script async defer data-domain="dearhuman.gumroad.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Dear Human</h1>
-    <p>Your AI-powered emotional message assistant</p>
-  </header>
 
-  <main>
-    <div class="card">
-      <h2>Need help saying something?</h2>
-      <form action="https://dearhuman.gumroad.com/l/message" method="get">
-        <textarea name="problem" placeholder="Describe the situation, message, or emotion you need help with..." required></textarea>
-        <select name="tone" required>
-          <option value="">Choose the tone</option>
-          <option value="compassionate">Compassionate</option>
-          <option value="professional">Professional</option>
-          <option value="honest">Honest</option>
-          <option value="firm">Firm</option>
-          <option value="warm">Warm</option>
-        </select>
-        <button type="submit">Get Your Message</button>
-      </form>
+  <section class="hero">
+    <div>
+      <h1>DearHuman: Messages That Speak for You</h1>
+      <p>Struggling to say what’s on your mind? Let us write it for you — breakup texts, apologies, difficult emotions handled with grace.</p>
+      <a href="https://dearhuman.gumroad.com/l/message"><button class="cta-button">Get Your Message Now</button></a>
     </div>
-  </main>
+  </section>
+
+  <section class="section">
+    <h2>Real People. Real Relief.</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <strong>“I couldn’t find the words to end things… DearHuman helped me say it right.”</strong><br>– Ava, 32
+      </div>
+      <div class="testimonial">
+        <strong>“The apology message saved my relationship. 100% worth it.”</strong><br>– Marcus, 27
+      </div>
+      <div class="testimonial">
+        <strong>“I used it for a work conflict — so professional and thoughtful.”</strong><br>– Jess, 40
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Your Privacy Matters</h2>
+    <p style="text-align: center; max-width: 700px; margin: 0 auto;">
+      Every message is 100% confidential. We never store your data. Messages are generated and delivered securely — your words, your life, your privacy.
+    </p>
+    <div class="trust">
+      <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy">
+      <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted">
+      <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Encrypted">
+    </div>
+  </section>
 
   <footer>
-    © 2025 DearHuman. Crafted with AI to help humans connect better.
+    &copy; 2025 DearHuman. All rights reserved.
   </footer>
+
 </body>
 </html>
