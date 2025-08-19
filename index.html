@@ -6,22 +6,9 @@
   <title>DearHuman</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
-    :root {
-      --accent: #FF6B6B;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f9fafb;
-      color: #333;
-    }
-
+    :root { --accent: #FF6B6B; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f9fafb; color: #333; }
     .hero {
       position: relative;
       height: 60vh;
@@ -34,37 +21,20 @@
       color: white;
       overflow: hidden;
     }
-
     .hero::before {
       content: '';
       position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 20%, transparent 70%);
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 20%, transparent 70%);
       animation: pulse 6s infinite linear;
     }
-
     @keyframes pulse {
       0% { transform: translate(-50%, -50%) rotate(0deg); }
       100% { transform: translate(-50%, -50%) rotate(360deg); }
     }
-
-    .hero h1 {
-      font-size: 3rem;
-      z-index: 1;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      z-index: 1;
-    }
-
-    .cta {
-      margin-top: 2rem;
-      z-index: 1;
-    }
-
+    .hero h1 { font-size: 3rem; z-index: 1; }
+    .hero p { font-size: 1.2rem; margin-top: 1rem; z-index: 1; }
+    .cta, .form-wrap { margin-top: 2rem; z-index: 1; }
     .cta button {
       background: var(--accent);
       color: white;
@@ -75,15 +45,44 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-
-    .cta button:hover {
-      background: #e55a5a;
-    }
-
+    .cta button:hover { background: #e55a5a; }
     .section {
       padding: 4rem 2rem;
       max-width: 1000px;
       margin: auto;
+    }
+
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    input, select, textarea {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .form-submit {
+      align-self: start;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
     }
 
     .testimonials {
@@ -95,12 +94,11 @@
       padding-left: 1rem;
       padding-right: 1rem;
     }
-
     .testimonial {
       background: #ffffff;
       padding: 1.75rem;
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
       min-width: 300px;
       max-width: 320px;
       scroll-snap-align: start;
@@ -109,67 +107,36 @@
       justify-content: space-between;
       transition: transform 0.3s;
     }
-
     .testimonial:hover {
       transform: translateY(-5px);
     }
-
     .testimonial p {
       font-size: 1.05rem;
       line-height: 1.5;
       color: #444;
       margin-bottom: 1rem;
     }
-
     .testimonial .author {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      font-weight: 600;
+      color: #111;
       margin-top: auto;
     }
 
-    .testimonial .author img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .testimonial .author span {
-      font-weight: 600;
-      color: #111;
-    }
-
-    .trust {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .trust-icon {
-      text-align: center;
-    }
-
-    .trust-icon img {
-      width: 80px;
-      margin: 0 1rem;
-      vertical-align: middle;
-    }
-
-    footer {
+    .trust, footer {
       text-align: center;
       padding: 2rem 1rem;
       font-size: 0.9rem;
       color: #777;
     }
+    .trust { margin-top: 2rem; }
+    .trust img { width: 80px; margin: 0 1rem; vertical-align: middle; }
 
     @media (max-width: 600px) {
       .hero h1 { font-size: 2.25rem; }
       .hero p { font-size: 1rem; }
     }
   </style>
+  <!-- Plausible Analytics -->
   <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
@@ -177,74 +144,51 @@
   <section class="hero">
     <h1>DearHuman: Let Words Be Heard</h1>
     <p>Not sure how to express a difficult message? We craft it with clarity, empathy, and your tone.</p>
-    <div class="cta">
-      <a href="https://dearhuman2.gumroad.com/l/vhojdo?wanted=true" target="_blank" rel="noopener">
-  <button>Get Your Message Now</button>
-</a>
+  </section>
+
+  <section class="section">
+    <h2>Tell Us What You Need</h2>
+    <div class="form-wrap">
+      <form id="message-form" onsubmit="redirectToGumroad(event)">
+        <div>
+          <label for="tone">What tone should we use?</label>
+          <select id="tone" required>
+            <option value="">Choose...</option>
+            <option value="Compassionate">Compassionate</option>
+            <option value="Firm but kind">Firm but kind</option>
+            <option value="Apologetic">Apologetic</option>
+            <option value="Grateful">Grateful</option>
+            <option value="Professional">Professional</option>
+          </select>
+        </div>
+        <div>
+          <label for="scenario">What's the situation?</label>
+          <textarea id="scenario" rows="4" placeholder="e.g. I need to break up with someone kindly..." required></textarea>
+        </div>
+        <button class="form-submit" type="submit">Continue to Message</button>
+      </form>
     </div>
   </section>
 
   <section class="section">
-    <h2 style="text-align: center; margin-bottom: 2rem;">They Said It Best</h2>
+    <h2>They Said It Best</h2>
     <div class="testimonials">
-      <div class="testimonial">
-        <p>“This message helped me heal. It felt honest — and so did I.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jordan">
-          <span>Jordan</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“My breakup needed compassion. DearHuman helped me deliver it with care.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avery">
-          <span>Avery</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I needed to set boundaries. The words were exactly what I needed.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Blake">
-          <span>Blake</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I didn't expect to feel so understood by something AI-generated. Wow.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/91.jpg" alt="Chris">
-          <span>Chris</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I had no idea how to apologize. DearHuman made it meaningful.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sam">
-          <span>Sam</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“The breakup message gave me closure. I'm truly grateful.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/73.jpg" alt="Tyler">
-          <span>Tyler</span>
-        </div>
-      </div>
+      <div class="testimonial"><p>“This message helped me heal. It felt honest — and so did I.”</p><div class="author">— Jordan</div></div>
+      <div class="testimonial"><p>“My breakup needs compassion. DearHuman helped me deliver it with care.”</p><div class="author">— Avery</div></div>
+      <div class="testimonial"><p>“I needed to set boundaries. The words were exactly what I needed.”</p><div class="author">— Blake</div></div>
+      <div class="testimonial"><p>“I was so anxious about sending a message. This gave me peace.”</p><div class="author">— Morgan</div></div>
+      <div class="testimonial"><p>“It sounded like me, only more composed. Truly helpful.”</p><div class="author">— Casey</div></div>
+      <div class="testimonial"><p>“A service like this was exactly what I didn’t know I needed.”</p><div class="author">— Taylor</div></div>
     </div>
   </section>
 
   <section class="section">
-    <h2 style="text-align: center;">We Protect Your Privacy</h2>
-    <p style="text-align: center;">We don't store your messages. Your words are yours — generation and delivery are secure and confidential.</p>
+    <h2>We Protect Your Privacy</h2>
+    <p style="text-align:center;">We don't store your messages. Your words are yours — generation and delivery are secure and confidential.</p>
     <div class="trust">
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy icon"/>
-      </div>
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted service"/>
-      </div>
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Secure message"/>
-      </div>
+      <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy icon"/>
+      <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted service"/>
+      <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Secure message"/>
     </div>
   </section>
 
@@ -253,7 +197,15 @@
   </footer>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    function redirectToGumroad(e) {
+      e.preventDefault();
+      const tone = encodeURIComponent(document.getElementById('tone').value);
+      const scenario = encodeURIComponent(document.getElementById('scenario').value);
+      const gumroadUrl = `https://dearhuman2.gumroad.com/l/vhojdo?tone=${tone}&scenario=${scenario}`;
+      window.location.href = gumroadUrl;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
       const container = document.querySelector('.testimonials');
       if (!container) return;
       let scrollAmount = 0;
