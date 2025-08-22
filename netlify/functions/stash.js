@@ -1,12 +1,12 @@
 // netlify/functions/stash.js
-import { createClient } from '@netlify/blobs';
+import { getStore } from '@netlify/blobs';
 
 export default async (req) => {
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const payload = await req.json().catch(() => null); // { sessionId, fields: {...} }
+  const payload = await req.json().catch(() => null);
   const sessionId = payload?.sessionId;
   const fields = payload?.fields;
 
@@ -17,8 +17,8 @@ export default async (req) => {
     });
   }
 
-  // ✅ Use the Netlify-provided token automatically (no params needed)
-  const store = createClient();
+  // Get (or auto-create) a store named "sessions"
+  const store = getStore('sessions');  // ← this is the correct API
 
   await store.setJSON(`session:${sessionId}`, {
     fields,
