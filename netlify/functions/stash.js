@@ -1,4 +1,6 @@
 // netlify/functions/stash.js
+import { createClient } from '@netlify/blobs';
+
 export default async (req) => {
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
@@ -15,9 +17,9 @@ export default async (req) => {
     });
   }
 
-  // Save to Netlify Blobs
-  const { createClient } = await import('@netlify/blobs');
-  const store = createClient({ token: process.env.NETLIFY_BLOBS_TOKEN });
+  // ✅ Use the Netlify-provided token automatically (no params needed)
+  const store = createClient();
+
   await store.setJSON(`session:${sessionId}`, {
     fields,
     createdAt: new Date().toISOString()
