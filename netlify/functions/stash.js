@@ -20,10 +20,12 @@ export default async (req) => {
   // Get (or auto-create) a store named "sessions"
   const store = getStore('sessions');  // ← this is the correct API
 
-  await store.setJSON(`session:${sessionId}`, {
-    fields,
-    createdAt: new Date().toISOString()
-  });
+  await store.set(
+  `session:${sessionId}`,
+  JSON.stringify({ fields, createdAt: new Date().toISOString() }),
+  { contentType: 'application/json' }
+);
+
 
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,

@@ -22,7 +22,7 @@ export default async (req) => {
   }
 
   const store = getStore('sessions');
-  const session = await store.getJSON(`session:${sessionId}`);
+  const session = await store.get(`session:${sessionId}`, { type: 'json' });
   const f = session?.fields || {};
 
   const name = (productName || '').toLowerCase();
@@ -55,11 +55,17 @@ Keep it sincere, humane, and specific. Return plain text only.
   const aiData = await aiRes.json();
   const message = aiData?.choices?.[0]?.message?.content?.trim() || 'Sorry — please tap Regenerate.';
 
-  await store.setJSON(`sale:${saleId}`, {
+  await store.set(
+  `sale:${saleId}`,
+  JSON.stringify({
     plan,
     remaining_regens: remaining,
     message,
     meta: { sessionId, productName, fields: f, createdAt: new Date().toISOString() }
+  }),
+  { contentType: 'application/json' }
+);
+
   });
 
   return new Response('ok', { status: 200 });

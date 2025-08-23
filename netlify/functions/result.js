@@ -12,7 +12,7 @@ export default async (req) => {
   }
 
   const store = getStore('sessions');
-  const data = await store.getJSON(`sale:${saleId}`);
+  const data = await store.get(`sale:${saleId}`, { type: 'json' });
 
   if (!data) {
     return new Response(JSON.stringify({ status: 'pending' }), {
