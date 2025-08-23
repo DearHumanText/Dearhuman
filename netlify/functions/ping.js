@@ -1,4 +1,4 @@
-// CommonJS — handles Gumroad Ping, generates AI message, saves by sale_id
+// CommonJS — handle Gumroad Ping, generate AI message, save by sale_id
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async (event) => {
@@ -6,11 +6,7 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  const SITE = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
-  if (!SITE) {
-    return { statusCode: 500, body: 'Missing NETLIFY_SITE_ID in env' };
-  }
-  const store = getStore('sessions', { siteID: SITE });
+  const store = getStore('sessions', { siteID: '2ff4d773-99ce-4241-aa6d-fc0e9e95c39e' });
 
   const raw = event.body || '';
   const params = new URLSearchParams(raw);
@@ -18,7 +14,7 @@ exports.handler = async (event) => {
   const saleId = params.get('sale_id') || params.get('order_id') || params.get('id');
   const productName = params.get('product_name') || '';
 
-  // Session ID may be in different keys depending on Gumroad/custom fields
+  // Session ID may come in different keys
   let sessionId = params.get('Session ID') || params.get('custom_fields[Session ID]');
   if (!sessionId) {
     for (const [k, v] of params.entries()) {
@@ -27,15 +23,15 @@ exports.handler = async (event) => {
   }
 
   if (!saleId || !sessionId) {
-    // Gracefully OK so Gumroad doesn’t retry endlessly
+    // Return 200 so Gumroad doesn’t keep retrying
     return { statusCode: 200, body: 'missing saleId or sessionId' };
   }
 
-  // Load stashed answers
+  // Load the stashed answers
   const session = await store.get(`session:${sessionId}`, { type: 'json' });
   const f = (session && session.fields) || {};
 
-  // Plan logic from product name
+  // Figure out plan from product name
   const name = (productName || '').toLowerCase();
   const plan = name.includes('unlimited') ? 'unlimited'
             : name.includes('premium')   ? 'premium'
@@ -69,7 +65,7 @@ Keep it sincere, humane, and specific. Return plain text only.
   const message = aiData?.choices?.[0]?.message?.content?.trim()
                   || 'Sorry — please tap Regenerate.';
 
-  // Save result by sale id
+  // Save result for the result page to read later
   await store.set(
     `sale:${saleId}`,
     JSON.stringify({

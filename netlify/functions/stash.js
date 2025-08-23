@@ -1,4 +1,4 @@
-// CommonJS — stores the user's form answers under a session ID
+// CommonJS — save the user's form answers under a session ID
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async (event) => {
@@ -6,12 +6,8 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  // Use the site ID provided by Netlify; try both common env names.
-  const SITE = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
-  if (!SITE) {
-    return { statusCode: 500, body: 'Missing NETLIFY_SITE_ID in env' };
-  }
-  const store = getStore('sessions', { siteID: SITE });
+  // Hard-wire your site ID so Blobs always works
+  const store = getStore('sessions', { siteID: '2ff4d773-99ce-4241-aa6d-fc0e9e95c39e' });
 
   // Parse JSON body
   let payload = null;
