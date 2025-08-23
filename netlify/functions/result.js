@@ -1,7 +1,13 @@
-// CommonJS version
+// CommonJS — returns generated message by sale_id for result.html to show
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async (event) => {
+  const SITE = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+  if (!SITE) {
+    return { statusCode: 500, body: 'Missing NETLIFY_SITE_ID in env' };
+  }
+  const store = getStore('sessions', { siteID: SITE });
+
   const saleId = (event.queryStringParameters && event.queryStringParameters.sale_id) || '';
   if (!saleId) {
     return {
@@ -11,9 +17,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const store = getStore('sessions', { siteID: process.env.SITE_ID });
   const data = await store.get(`sale:${saleId}`, { type: 'json' });
-
   if (!data) {
     return {
       statusCode: 200,

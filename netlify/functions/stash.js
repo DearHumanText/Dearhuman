@@ -1,4 +1,4 @@
-// CommonJS version
+// CommonJS — stores the user's form answers under a session ID
 const { getStore } = require('@netlify/blobs');
 
 exports.handler = async (event) => {
@@ -6,6 +6,14 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
+  // Use the site ID provided by Netlify; try both common env names.
+  const SITE = process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+  if (!SITE) {
+    return { statusCode: 500, body: 'Missing NETLIFY_SITE_ID in env' };
+  }
+  const store = getStore('sessions', { siteID: SITE });
+
+  // Parse JSON body
   let payload = null;
   try { payload = JSON.parse(event.body || '{}'); } catch (_) {}
   const sessionId = payload && payload.sessionId;
@@ -19,7 +27,6 @@ exports.handler = async (event) => {
     };
   }
 
-  const store = getStore('sessions', { siteID: process.env.SITE_ID });
   await store.set(
     `session:${sessionId}`,
     JSON.stringify({ fields, createdAt: new Date().toISOString() }),
