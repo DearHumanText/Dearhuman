@@ -1,10 +1,12 @@
-// netlify/functions/ping.js
-import { getStore } from '@netlify/blobs';
+// CommonJS version
+const { getStore } = require('@netlify/blobs');
 
-export default async (req) => {
-  if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method not allowed' };
+  }
 
-  const raw = await req.text();
+  const raw = event.body || '';
   const params = new URLSearchParams(raw);
 
   const saleId = params.get('sale_id') || params.get('order_id') || params.get('id');
@@ -18,12 +20,12 @@ export default async (req) => {
   }
 
   if (!saleId || !sessionId) {
-    return new Response('missing saleId or sessionId', { status: 200 });
+    return { statusCode: 200, body: 'missing saleId or sessionId' };
   }
 
   const store = getStore('sessions');
   const session = await store.get(`session:${sessionId}`, { type: 'json' });
-  const f = session?.fields || {};
+  const f = (session && session.fields) || {};
 
   const name = (productName || '').toLowerCase();
   const plan = name.includes('unlimited') ? 'unlimited'
@@ -56,17 +58,15 @@ Keep it sincere, humane, and specific. Return plain text only.
   const message = aiData?.choices?.[0]?.message?.content?.trim() || 'Sorry — please tap Regenerate.';
 
   await store.set(
-  `sale:${saleId}`,
-  JSON.stringify({
-    plan,
-    remaining_regens: remaining,
-    message,
-    meta: { sessionId, productName, fields: f, createdAt: new Date().toISOString() }
-  }),
-  { contentType: 'application/json' }
-);
+    `sale:${saleId}`,
+    JSON.stringify({
+      plan,
+      remaining_regens: remaining,
+      message,
+      meta: { sessionId, productName, fields: f, createdAt: new Date().toISOString() }
+    }),
+    { contentType: 'application/json' }
+  );
 
-  });
-
-  return new Response('ok', { status: 200 });
+  return { statusCode: 200, body: 'ok' };
 };

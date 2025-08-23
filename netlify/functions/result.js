@@ -1,28 +1,30 @@
-// netlify/functions/result.js
-import { getStore } from '@netlify/blobs';
+// CommonJS version
+const { getStore } = require('@netlify/blobs');
 
-export default async (req) => {
-  const url = new URL(req.url);
-  const saleId = url.searchParams.get('sale_id');
+exports.handler = async (event) => {
+  const saleId = (event.queryStringParameters && event.queryStringParameters.sale_id) || '';
   if (!saleId) {
-    return new Response(JSON.stringify({ error: 'missing sale_id' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'missing sale_id' })
+    };
   }
 
   const store = getStore('sessions');
   const data = await store.get(`sale:${saleId}`, { type: 'json' });
 
   if (!data) {
-    return new Response(JSON.stringify({ status: 'pending' }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'pending' })
+    };
   }
 
-  return new Response(JSON.stringify({ status: 'ready', ...data }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'ready', ...data })
+  };
 };

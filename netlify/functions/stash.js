@@ -1,34 +1,34 @@
-// netlify/functions/stash.js
-import { getStore } from '@netlify/blobs';
+// CommonJS version
+const { getStore } = require('@netlify/blobs');
 
-export default async (req) => {
-  if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 });
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method not allowed' };
   }
 
-  const payload = await req.json().catch(() => null);
-  const sessionId = payload?.sessionId;
-  const fields = payload?.fields;
+  let payload = null;
+  try { payload = JSON.parse(event.body || '{}'); } catch (_) {}
+  const sessionId = payload && payload.sessionId;
+  const fields = payload && payload.fields;
 
   if (!sessionId || !fields) {
-    return new Response(JSON.stringify({ error: 'Bad Request: need sessionId and fields' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Bad Request: need sessionId and fields' })
+    };
   }
 
-  // Get (or auto-create) a store named "sessions"
-  const store = getStore('sessions');  // ← this is the correct API
-
+  const store = getStore('sessions');
   await store.set(
-  `session:${sessionId}`,
-  JSON.stringify({ fields, createdAt: new Date().toISOString() }),
-  { contentType: 'application/json' }
-);
+    `session:${sessionId}`,
+    JSON.stringify({ fields, createdAt: new Date().toISOString() }),
+    { contentType: 'application/json' }
+  );
 
-
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
-  });
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ok: true })
+  };
 };
