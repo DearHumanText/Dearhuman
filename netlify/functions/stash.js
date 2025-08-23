@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const store = getStore('sessions');
+  const store = getStore('sessions', { siteID: process.env.SITE_ID });
   await store.set(
     `session:${sessionId}`,
     JSON.stringify({ fields, createdAt: new Date().toISOString() }),

@@ -23,7 +23,7 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: 'missing saleId or sessionId' };
   }
 
-  const store = getStore('sessions');
+  const store = getStore('sessions', { siteID: process.env.SITE_ID });
   const session = await store.get(`session:${sessionId}`, { type: 'json' });
   const f = (session && session.fields) || {};
 

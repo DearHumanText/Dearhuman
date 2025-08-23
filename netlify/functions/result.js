@@ -11,7 +11,7 @@ exports.handler = async (event) => {
     };
   }
 
-  const store = getStore('sessions');
+  const store = getStore('sessions', { siteID: process.env.SITE_ID });
   const data = await store.get(`sale:${saleId}`, { type: 'json' });
 
   if (!data) {
