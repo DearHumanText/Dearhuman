@@ -6,10 +6,13 @@ exports.handler = async () => {
     const siteID = process.env.NETLIFY_SITE_ID;
     const token = process.env.NETLIFY_API_TOKEN;
 
-    // Explicitly pass siteID + token to getStore
-    const store = getStore('dearhuman-stash', { siteID, token });
+    // FORCE manual mode by passing siteID + token explicitly
+    const store = getStore('dearhuman-stash', {
+      siteID: siteID,
+      token: token,
+    });
 
-    // Write a test value
+    // Write a test value into the Blob store
     await store.setJSON('health-check', { ok: true, time: Date.now() });
 
     return {
@@ -18,15 +21,14 @@ exports.handler = async () => {
         ok: "manual",
         siteID,
         token: token ? "present" : "missing",
-        message: "Blob store connection successful"
+        message: "Blob store connection successful ✅"
       }),
     };
   } catch (error) {
     return {
       statusCode: 500,
       body: JSON.stringify({
-        mode: "manual",
-        siteID: process.env.NETLIFY_SITE_ID || null,
+        siteID: process.env.NETLIFY_SITE_ID,
         token: process.env.NETLIFY_API_TOKEN ? "present" : "missing",
         message: error.message,
       }),
