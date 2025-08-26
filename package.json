@@ -1,8 +1,5 @@
 {
   "name": "dearhumantext",
   "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-  "@netlify/blobs": "6.2.0"
-  }
+  "private": true
 }
