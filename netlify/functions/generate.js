@@ -1,75 +1,110 @@
 // netlify/functions/generate.js
-const SYSTEM = `You are DearHuman, a concise, human-sounding writing assistant.
-Write one message the user can copy/paste. Keep it specific, warm, and clear.
-Avoid fluff and corporate tone.`;
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
+};
 
 exports.handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: corsHeaders };
+  }
+
+  // Simple health check: /.netlify/functions/generate?ping=1
+  if (event.httpMethod === "GET" && event.queryStringParameters?.ping) {
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: true, message: "generate is alive" }),
+    };
+  }
+
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: false, error: "Method not allowed" }),
+    };
+  }
+
   try {
-    if (event.httpMethod !== 'POST') {
-      return { statusCode: 405, body: 'Method Not Allowed' };
+    const { message_for, what_to_say, tone, goal, revision } = JSON.parse(event.body || "{}");
+
+    if (!message_for || !what_to_say) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, error: "Missing fields: message_for and what_to_say are required." }),
+      };
     }
 
-    const { message_for, what_to_say, tone, goal, plan = 'basic', revision_note = '' } =
-      JSON.parse(event.body || '{}');
-
-    if (!process.env.OPENAI_API_KEY) {
-      return { statusCode: 500, body: JSON.stringify({ error: 'OPENAI_API_KEY missing' }) };
+    const key = process.env.OPENAI_API_KEY;
+    if (!key) {
+      console.error("Missing OPENAI_API_KEY env var");
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({ ok: false, error: "Server missing OPENAI_API_KEY." }),
+      };
     }
-    if (!what_to_say) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'what_to_say is required' }) };
-    }
 
-    const limits = { basic: 140, premium: 220, unlimited: 280 };
-    const maxWords = limits[plan] || limits.basic;
+    // Build a clear prompt
+    const system = `You are an expert communication coach. 
+Write a concise, human, empathetic message tailored for the recipient.
+Keep it clear, specific, and in the requested tone. Avoid flowery language.`;
 
-    const userPrompt = [
-      `Recipient: ${message_for || '—'}`,
-      `Tone: ${tone || 'Compassionate'}`,
-      `Goal: ${goal || 'Communicate clearly'}`,
-      revision_note ? `Revision guidance: ${revision_note}` : null,
-      '',
-      'Write ONE message they can send.',
-      `Target length: up to ${maxWords} words.`,
-      'No preamble. If a greeting/sign-off is essential, keep it short.',
-      '',
-      'User context:',
-      `"""${what_to_say}"""`,
-    ].filter(Boolean).join('\n');
+    const user = `
+Recipient: ${message_for}
+Tone: ${tone || "Neutral"}
+Goal: ${goal || "(not specified)"}
+Context:
+${what_to_say}
 
-    const r = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
+${revision ? `Revision request / emphasis: ${revision}` : ""}
+Return only the message text (no preamble).
+`;
+
+    // Call OpenAI Chat Completions (works on Netlify's Node runtime)
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${key}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: "gpt-4o-mini",       // or "gpt-3.5-turbo" if needed
         messages: [
-          { role: 'system', content: SYSTEM },
-          { role: 'user', content: userPrompt },
+          { role: "system", content: system },
+          { role: "user", content: user },
         ],
         temperature: 0.7,
       }),
     });
 
-    if (!r.ok) {
-      const txt = await r.text();
-      return { statusCode: 502, body: JSON.stringify({ error: 'OpenAI error', detail: txt }) };
+    const data = await res.json();
+    if (!res.ok) {
+      console.error("OpenAI API error:", res.status, data);
+      throw new Error(data?.error?.message || `HTTP ${res.status}`);
     }
 
-    const data = await r.json();
-    const answer = data.choices?.[0]?.message?.content?.trim() || 'Sorry—no answer generated.';
+    const text = data.choices?.[0]?.message?.content?.trim();
+    if (!text) {
+      console.error("OpenAI returned no text:", data);
+      throw new Error("No content from OpenAI");
+    }
 
     return {
       statusCode: 200,
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ answer }),
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: true, text }),
     };
   } catch (err) {
+    console.error("Function error:", err);
     return {
       statusCode: 500,
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ error: String(err?.message || err) }),
+      headers: corsHeaders,
+      body: JSON.stringify({ ok: false, error: String(err.message || err) }),
     };
   }
 };
