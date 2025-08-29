@@ -1,121 +1,100 @@
 // netlify/functions/generate.js
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "Content-Type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS, GET",
-};
-
-exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: corsHeaders };
+export async function handler(event) {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  // Simple health check: /.netlify/functions/generate?ping=1
-  if (event.httpMethod === "GET" && event.queryStringParameters?.ping) {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) {
     return {
-      statusCode: 200,
-      headers: corsHeaders,
-      body: JSON.stringify({ ok: true, message: "generate is alive" }),
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Missing OPENAI_API_KEY in Netlify env.' }),
     };
   }
 
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      headers: corsHeaders,
-      body: JSON.stringify({ ok: false, error: "Method not allowed" }),
-    };
+  let payloadIn;
+  try {
+    payloadIn = JSON.parse(event.body || '{}');
+  } catch {
+    return { statusCode: 400, body: JSON.stringify({ error: 'Bad JSON body' }) };
   }
+
+  const {
+    message_for = '',
+    tone = 'Neutral',
+    goal = '',
+    what_to_say = '',
+    revision = '',
+    plan,
+  } = payloadIn;
+
+  const system =
+    `You are DearHuman, a helpful assistant that writes kind, clear messages. ` +
+    `Write in the requested tone and keep it concise and human. Output only the message text.`;
+
+  const user =
+`Recipient: ${message_for}
+Tone: ${tone}
+Goal: ${goal}
+Context: ${what_to_say}
+${revision ? `Revision request / emphasis: ${revision}` : ''}`;
+
+  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+
+  const body = {
+    model,
+    temperature: 0.7,
+    messages: [
+      { role: 'system', content: system },
+      { role: 'user', content: user },
+    ],
+  };
 
   try {
-    const { message_for, what_to_say, tone, goal, revision } = JSON.parse(event.body || "{}");
-
-    if (!message_for || !what_to_say) {
-      return {
-        statusCode: 400,
-        headers: corsHeaders,
-        body: JSON.stringify({ ok: false, error: "Missing fields: message_for and what_to_say are required." }),
-      };
+    const data = await callOpenAI(body, key, 2); // up to 2 retries on 502/503/504
+    if (data.error) {
+      return { statusCode: 502, body: JSON.stringify({ error: data.error }) };
     }
-
-    const key = process.env.OPENAI_API_KEY;
-    if (!key) {
-      console.error("Missing OPENAI_API_KEY env var");
-      return {
-        statusCode: 500,
-        headers: corsHeaders,
-        body: JSON.stringify({ ok: false, error: "Server missing OPENAI_API_KEY." }),
-      };
-    }
-
-    // Build a clear prompt
-    const system = `You are an expert communication coach. 
-Write a concise, human, empathetic message tailored for the recipient.
-Keep it clear, specific, and in the requested tone. Avoid flowery language.`;
-
-    const user = `
-Recipient: ${message_for}
-Tone: ${tone || "Neutral"}
-Goal: ${goal || "(not specified)"}
-Context:
-${what_to_say}
-
-${revision ? `Revision request / emphasis: ${revision}` : ""}
-Return only the message text (no preamble).
-`;
-
-    // Call OpenAI Responses API with GPT-5 mini
-const res = await fetch("https://api.openai.com/v1/responses", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${key}`,
-  },
-  body: JSON.stringify({
-    model: "gpt-5-mini",          // <— the model you wanted
-    input: [
-      { role: "system", content: system },
-      { role: "user", content: user },
-    ],
-    max_output_tokens: 400
-  }),
-});
-
-const data = await res.json();
-if (!res.ok) {
-  console.error("OpenAI API error:", res.status, data);
-  throw new Error(data?.error?.message || `HTTP ${res.status}`);
-}
-
-// Responses API shape — prefer output_text, fall back to the object path
-const text =
-  data.output_text ??
-  data.output?.[0]?.content?.[0]?.text ??
-  "";
-
-if (!text) {
-  throw new Error("OpenAI returned no text");
-}
-
 
     const text = data.choices?.[0]?.message?.content?.trim();
     if (!text) {
-      console.error("OpenAI returned no text:", data);
-      throw new Error("No content from OpenAI");
+      return { statusCode: 500, body: JSON.stringify({ error: 'No text in response', raw: data }) };
     }
 
-    return {
-      statusCode: 200,
-      headers: corsHeaders,
-      body: JSON.stringify({ ok: true, text }),
-    };
+    return { statusCode: 200, body: JSON.stringify({ ok: true, text }) };
   } catch (err) {
-    console.error("Function error:", err);
-    return {
-      statusCode: 500,
-      headers: corsHeaders,
-      body: JSON.stringify({ ok: false, error: String(err.message || err) }),
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: String(err) }) };
   }
-};
+}
+
+async function callOpenAI(body, key, retries = 2) {
+  const url = 'https://api.openai.com/v1/chat/completions';
+
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    const text = await res.text();
+    let json;
+    try { json = JSON.parse(text); } catch { json = null; }
+
+    if (res.ok) return json;
+
+    // Retry on upstream/gateway issues
+    if ([502, 503, 504].includes(res.status) && attempt < retries) {
+      await new Promise(r => setTimeout(r, 400 * Math.pow(2, attempt))); // 400ms, 800ms
+      continue;
+    }
+
+    const detail = json?.error?.message || text || res.statusText;
+    return { error: `HTTP ${res.status}: ${detail}` };
+  }
+
+  return { error: 'Upstream 502/503/504 after retries' };
+}
