@@ -65,28 +65,39 @@ ${revision ? `Revision request / emphasis: ${revision}` : ""}
 Return only the message text (no preamble).
 `;
 
-    // Call OpenAI Chat Completions (works on Netlify's Node runtime)
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${key}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",       // or "gpt-3.5-turbo" if needed
-        messages: [
-          { role: "system", content: system },
-          { role: "user", content: user },
-        ],
-        temperature: 0.7,
-      }),
-    });
+    // Call OpenAI Responses API with GPT-5 mini
+const res = await fetch("https://api.openai.com/v1/responses", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${key}`,
+  },
+  body: JSON.stringify({
+    model: "gpt-5-mini",          // <— the model you wanted
+    input: [
+      { role: "system", content: system },
+      { role: "user", content: user },
+    ],
+    max_output_tokens: 400
+  }),
+});
 
-    const data = await res.json();
-    if (!res.ok) {
-      console.error("OpenAI API error:", res.status, data);
-      throw new Error(data?.error?.message || `HTTP ${res.status}`);
-    }
+const data = await res.json();
+if (!res.ok) {
+  console.error("OpenAI API error:", res.status, data);
+  throw new Error(data?.error?.message || `HTTP ${res.status}`);
+}
+
+// Responses API shape — prefer output_text, fall back to the object path
+const text =
+  data.output_text ??
+  data.output?.[0]?.content?.[0]?.text ??
+  "";
+
+if (!text) {
+  throw new Error("OpenAI returned no text");
+}
+
 
     const text = data.choices?.[0]?.message?.content?.trim();
     if (!text) {
