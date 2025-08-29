@@ -65,7 +65,9 @@
       z-index: 1;
     }
 
-    .cta button {
+    /* Button-like link */
+    .cta .btn {
+      display: inline-block;
       background: var(--accent);
       color: white;
       padding: 1rem 2rem;
@@ -73,10 +75,10 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      text-decoration: none;
       transition: background 0.3s;
     }
-
-    .cta button:hover {
+    .cta .btn:hover {
       background: #e55a5a;
     }
 
@@ -178,7 +180,15 @@
     <h1>DearHuman: Let Words Be Heard</h1>
     <p>Not sure how to express a difficult message? We craft it with clarity, empathy, and your tone.</p>
     <div class="cta">
-      <a href="form.html"><button>Get Your Message Now</button></a>
+      <!-- CHANGED: direct to Gumroad product options -->
+      <a
+        class="btn"
+        href="https://dearhuman2.gumroad.com/l/vhojdo"
+        aria-label="Get your message now"
+        onclick="window.plausible && plausible('hero_cta_click')"
+      >
+        Get Your Message Now
+      </a>
     </div>
   </section>
 
@@ -255,7 +265,9 @@
       const container = document.querySelector('.testimonials');
       if (!container) return;
       let scrollAmount = 0;
-      const slideWidth = container.children[0].getBoundingClientRect().width + 24;
+      const firstCard = container.children[0];
+      if (!firstCard) return;
+      const slideWidth = firstCard.getBoundingClientRect().width + 24;
       const speed = 4000;
       setInterval(() => {
         scrollAmount += slideWidth;
