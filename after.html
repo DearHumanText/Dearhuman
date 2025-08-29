@@ -1,224 +1,75 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DearHuman – Your Message</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <style>
-    :root{
-      --accent:#FF6B6B;
-      --bg:#f9fafb;
-      --ink:#0f172a;
-      --muted:#475569;
-      --card:#ffffff;
-      --ring:rgba(17,24,39,.08);
-      --grad1:#6e8efb; --grad2:#a777e3;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    .hero{
-      background:linear-gradient(135deg,var(--grad1),var(--grad2));
-      color:#fff;padding:40px 20px;text-align:center
-    }
-    .wrap{max-width:960px;margin:0 auto;padding:28px 20px 64px}
-    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px var(--ring);padding:20px}
-    h1{font-size:28px;margin:0 0 6px}
-    p.lead{margin:0 0 18px;color:#334155}
-    label{display:block;font-weight:600;margin:14px 0 6px}
-    input,select,textarea{
-      width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:16px;color:var(--ink);background:#fff
-    }
-    textarea{min-height:140px;resize:vertical}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .btns{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
-    .btn{appearance:none;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;text-decoration:none}
-    .btn-primary{background:var(--accent);color:#fff}
-    .btn-secondary{background:#eef2ff;color:#374151}
-    .btn[disabled]{opacity:.6;cursor:not-allowed}
-    .tiny{font-size:12px;color:#64748b}
-    .out{white-space:pre-wrap;background:#fff;border:1px solid #e5e7eb;color:var(--ink);border-radius:12px;padding:16px;margin-top:16px}
-    .badge{display:inline-block;padding:6px 10px;background:#eef2ff;color:#1e293b;border-radius:999px;font-size:12px;margin-left:8px}
-    .chooser{display:none;gap:10px;margin:10px 0 0}
-    .chooser button{background:#eef2ff;border:0;border-radius:999px;padding:8px 12px;cursor:pointer}
-    .note{margin-top:8px}
-    .upgrade{margin-left:auto}
-    .upgrade a{color:var(--accent);font-weight:700;text-decoration:none}
-    @media (max-width:720px){.row{grid-template-columns:1fr}}
-  </style>
-  <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
-</head>
-<body>
-  <header class="hero">
-    <h1>Your Message Builder <span id="tierBadge" class="badge"></span></h1>
-    <p class="lead" style="color:#e5e7eb">Tell us the context and tone. We’ll craft the words.</p>
-  </header>
+<button type="button" id="regenBtn" class="btn btn-secondary">Regenerate</button>
+<span class="tiny">Unlimited regenerates included.</span>
+</div>
+<div class="tiny" style="margin-top:6px">We don’t store your message.</div>
+</form>
 
-  <main class="wrap">
-    <div class="card">
-      <div id="tierChooser" class="chooser">
-        <span class="tiny">Which plan did you buy?</span>
-        <button data-pick="basic">Basic</button>
-        <button data-pick="premium">Premium</button>
-        <button data-pick="unlimited">Unlimited</button>
-      </div>
 
-      <form id="msgForm">
-        <div class="row">
-          <div>
-            <label for="messageType">What kind of message?</label>
-            <select id="messageType" required>
-              <option value="breakup">Breakup</option>
-              <option value="apology">Apology</option>
-              <option value="boundary">Set a boundary</option>
-              <option value="conflict">Conflict resolution</option>
-              <option value="custom">Custom</option>
-            </select>
-          </div>
-          <div>
-            <label for="tone">Tone</label>
-            <select id="tone" required>
-              <option>Warm</option>
-              <option>Calm</option>
-              <option>Direct</option>
-              <option>Compassionate</option>
-              <option>Professional</option>
-            </select>
-          </div>
-        </div>
+<div id="result" class="out" style="display:none"></div>
+</div>
+</main>
 
-        <label for="context">What should we know?</label>
-        <textarea id="context" placeholder="Who is this for? What’s the situation? Any phrases to include or avoid?" required></textarea>
 
-        <div class="btns">
-          <button type="submit" id="generateBtn" class="btn btn-primary">Generate</button>
-          <button type="button" id="regenBtn" class="btn btn-secondary" disabled>Regenerate</button>
-          <span id="regenLeft" class="tiny"></span>
-          <span class="upgrade tiny" id="upgradeMsg" style="display:none">
-            Need more tries? <a id="upgradeLink" href="https://dearhuman2.gumroad.com">Upgrade plan</a>
-          </span>
-        </div>
-        <div class="note tiny">Your text isn’t stored.</div>
-      </form>
+<script>
+// Track real purchases (Gumroad appends sale_id/purchase_id when redirecting)
+const params = new URLSearchParams(location.search);
+if ((params.get('sale_id') || params.get('purchase_id')) && window.plausible) {
+plausible('purchase', { props: { tier: 'unlimited' } });
+}
 
-      <div id="result" class="out" style="display:none"></div>
-    </div>
-  </main>
 
-  <script>
-    // --- Tier detection + limits ---
-    const limits = { basic: 0, premium: 1, unlimited: Infinity };
+// Stable client token (for future features/analytics)
+let clientToken = localStorage.getItem('dh.client');
+if (!clientToken) {
+clientToken = (crypto.randomUUID && crypto.randomUUID()) || Math.random().toString(36).slice(2);
+localStorage.setItem('dh.client', clientToken);
+}
 
-    const params = new URLSearchParams(location.search);
-    const savedTier = (localStorage.getItem('dh.tier') || '').toLowerCase();
-    let tier = (params.get('tier') || savedTier || '').toLowerCase();
 
-    const tierBadge = document.getElementById('tierBadge');
-    const chooser = document.getElementById('tierChooser');
-    const regenBtn = document.getElementById('regenBtn');
-    const regenLeft = document.getElementById('regenLeft');
-    const generateBtn = document.getElementById('generateBtn');
-    const result = document.getElementById('result');
-    const form = document.getElementById('msgForm');
-    const upgradeMsg = document.getElementById('upgradeMsg');
+const result = document.getElementById('result');
+const form = document.getElementById('msgForm');
+const generateBtn = document.getElementById('generateBtn');
+const regenBtn = document.getElementById('regenBtn');
 
-    // Track whether we've already generated once
-    let firstGenerated = false;
 
-    function applyTier(t) {
-      tier = t;
-      localStorage.setItem('dh.tier', tier);
-      tierBadge.textContent = tier ? `Plan: ${tier[0].toUpperCase()}${tier.slice(1)}` : '';
-      tierBadge.style.display = tier ? 'inline-block' : 'none';
-      // Reset local regen counter if switching tiers
-      if (localStorage.getItem('dh.tier') !== t) localStorage.setItem('dh.regensUsed','0');
-      updateUi();
-    }
+async function callGenerate(isRegen){
+generateBtn.disabled = true; regenBtn.disabled = true;
+generateBtn.textContent = isRegen ? 'Regenerating…' : 'Generating…';
 
-    function getUsed() { return Number(localStorage.getItem('dh.regensUsed') || '0'); }
-    function setUsed(n) { localStorage.setItem('dh.regensUsed', String(n)); }
 
-    function updateUi() {
-      const limit = limits[tier] ?? 0;
-      const used = getUsed();
-      const left = (limit === Infinity) ? '∞' : Math.max(0, limit - used);
-      regenLeft.textContent = `Regenerates left: ${left}`;
+const payload = {
+tier: 'unlimited',
+messageType: document.getElementById('messageType').value,
+tone: document.getElementById('tone').value,
+recipient: document.getElementById('recipient').value,
+say: document.getElementById('say').value,
+context: document.getElementById('context').value,
+clientToken
+};
 
-      // Regen button only after first result AND if capacity left
-      const canRegen = (result.style.display === 'block') && (limit === Infinity || used < limit);
-      regenBtn.disabled = !canRegen;
 
-      // Also prevent pressing Generate again when the plan is out of capacity
-      const outOfTries = firstGenerated && (limit !== Infinity) && (used >= limit);
-      if (outOfTries) {
-        generateBtn.disabled = true;
-        upgradeMsg.style.display = 'inline';
-      } else {
-        generateBtn.disabled = false;
-        upgradeMsg.style.display = 'none';
-      }
-    }
+try {
+const res = await fetch('/.netlify/functions/generate', {
+method:'POST', headers:{'Content-Type':'application/json'},
+body: JSON.stringify(payload)
+});
+const data = await res.json();
+result.style.display = 'block';
+result.textContent = data.message || data.text || 'Success, but no text returned.';
+window.plausible && plausible(isRegen ? 'regen' : 'generate', { props: { tier: 'unlimited' } });
+} catch (e) {
+console.error(e);
+alert('Something went wrong generating your message.');
+} finally {
+generateBtn.textContent = 'Generate';
+generateBtn.disabled = false; regenBtn.disabled = false;
+}
+}
 
-    if (!tier) {
-      chooser.style.display = 'flex';
-      chooser.querySelectorAll('button').forEach(b => {
-        b.addEventListener('click', () => { chooser.style.display = 'none'; applyTier(b.dataset.pick); });
-      });
-    } else applyTier(tier);
 
-    async function callGenerate(isRegen) {
-      // If this is a second attempt on Basic / beyond Premium, block before calling the server
-      const limit = limits[tier] ?? 0;
-      const used = getUsed();
-      const thisIsRegenAttempt = isRegen || firstGenerated; // any call after the first is effectively a "regen"
-      if (thisIsRegenAttempt && limit !== Infinity && used >= limit) {
-        updateUi();
-        alert('Your plan has no regenerates left for this message.');
-        return;
-      }
-
-      generateBtn.disabled = true; regenBtn.disabled = true;
-      generateBtn.textContent = isRegen ? 'Regenerating…' : 'Generating…';
-
-      const payload = {
-        tier,
-        messageType: document.getElementById('messageType').value,
-        tone: document.getElementById('tone').value,
-        context: document.getElementById('context').value,
-        purchaseId: params.get('sale_id') || params.get('purchase_id') || null
-      };
-
-      try {
-        const res = await fetch('/.netlify/functions/generate', {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-
-        result.style.display = 'block';
-        result.textContent = data.message || data.text || 'Success, but no text returned.';
-
-        // Mark first generation and count a regen if applicable
-        if (!firstGenerated) {
-          firstGenerated = true;
-        } else {
-          setUsed(used + 1); // every subsequent call counts against the plan
-        }
-        // Track with Plausible
-        window.plausible && plausible(isRegen ? 'regen' : 'generate', { props: { tier } });
-      } catch (e) {
-        console.error(e);
-        alert('Something went wrong generating your message.');
-      } finally {
-        generateBtn.textContent = 'Generate';
-        updateUi();
-      }
-    }
-
-    form.addEventListener('submit', (e) => { e.preventDefault(); callGenerate(false); });
-    regenBtn.addEventListener('click', () => callGenerate(true));
-
-    updateUi();
-  </script>
+form.addEventListener('submit', (e)=>{ e.preventDefault(); callGenerate(false); });
+regenBtn.addEventListener('click', ()=> callGenerate(true));
+</script>
 </body>
 </html>

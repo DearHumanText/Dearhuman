@@ -1,281 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DearHuman</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <style>
-    :root {
-      --accent: #FF6B6B;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f9fafb;
-      color: #333;
-    }
-
-    .hero {
-      position: relative;
-      height: 60vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: linear-gradient(135deg, #6e8efb, #a777e3);
-      color: white;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 20%, transparent 70%);
-      animation: pulse 6s infinite linear;
-    }
-
-    @keyframes pulse {
-      0% { transform: translate(-50%, -50%) rotate(0deg); }
-      100% { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      z-index: 1;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      z-index: 1;
-    }
-
-    .cta {
-      margin-top: 2rem;
-      z-index: 1;
-    }
-
-    /* Button-like link */
-    .cta .btn {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    .cta .btn:hover {
-      background: #e55a5a;
-    }
-
-    .section {
-      padding: 4rem 2rem;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .testimonials {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    .testimonial {
-      background: #ffffff;
-      padding: 1.75rem;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-      min-width: 300px;
-      max-width: 320px;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: transform 0.3s;
-    }
-
-    .testimonial:hover {
-      transform: translateY(-5px);
-    }
-
-    .testimonial p {
-      font-size: 1.05rem;
-      line-height: 1.5;
-      color: #444;
-      margin-bottom: 1rem;
-    }
-
-    .testimonial .author {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: auto;
-    }
-
-    .testimonial .author img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .testimonial .author span {
-      font-weight: 600;
-      color: #111;
-    }
-
-    .trust {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .trust-icon {
-      text-align: center;
-    }
-
-    .trust-icon img {
-      width: 80px;
-      margin: 0 1rem;
-      vertical-align: middle;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 2.25rem; }
-      .hero p { font-size: 1rem; }
-    }
-  </style>
-  <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
+:root { --accent:#FF6B6B; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif; background:#f9fafb; color:#333; }
+.hero { position:relative; height:60vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background:linear-gradient(135deg,#6e8efb,#a777e3); color:#fff; overflow:hidden; }
+.hero::before { content:""; position:absolute; width:200%; height:200%; background:radial-gradient(circle, rgba(255,255,255,.15) 20%, transparent 70%); animation:pulse 6s infinite linear; }
+@keyframes pulse { 0%{ transform:translate(-50%,-50%) rotate(0deg);} 100%{ transform:translate(-50%,-50%) rotate(360deg);} }
+.hero h1 { font-size:3rem; z-index:1; }
+.hero p { font-size:1.2rem; margin-top:1rem; z-index:1; }
+.cta { margin-top:2rem; z-index:1; }
+.cta .btn { display:inline-block; background:var(--accent); color:#fff; padding:1rem 2rem; font-size:1.1rem; border-radius:5px; text-decoration:none; transition:background .3s; }
+.cta .btn:hover { background:#e55a5a; }
+.section { padding:4rem 2rem; max-width:1000px; margin:auto; }
+.testimonials { display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; padding:0 1rem 1rem; }
+.testimonial { background:#fff; padding:1.75rem; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.05); min-width:300px; max-width:320px; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:space-between; transition:transform .3s; }
+.testimonial:hover { transform:translateY(-5px); }
+.testimonial p { font-size:1.05rem; line-height:1.5; color:#444; margin-bottom:1rem; }
+.testimonial .author { display:flex; align-items:center; gap:.75rem; margin-top:auto; }
+.testimonial .author img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+.testimonial .author span { font-weight:600; color:#111; }
+.trust { display:flex; justify-content:center; gap:2rem; margin-top:2rem; flex-wrap:wrap; }
+.trust-icon { text-align:center; }
+.trust-icon img { width:80px; margin:0 1rem; vertical-align:middle; }
+footer { text-align:center; padding:2rem 1rem; font-size:.9rem; color:#777; }
+@media (max-width:600px){ .hero h1{font-size:2.25rem;} .hero p{font-size:1rem;} }
+</style>
+<script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
+<section class="hero">
+<h1>DearHuman: Let Words Be Heard</h1>
+<p>Get a crafted message in 60 seconds — <strong>unlimited changes included</strong>.</p>
+<div class="cta">
+<a class="btn" href="https://dearhuman2.gumroad.com/l/wnfjrl" aria-label="Get your message now" onclick="window.plausible && plausible('hero_cta_click')">Get Your Message Now</a>
+</div>
+</section>
 
-  <section class="hero">
-    <h1>DearHuman: Let Words Be Heard</h1>
-    <p>Not sure how to express a difficult message? We craft it with clarity, empathy, and your tone.</p>
-    <div class="cta">
-      <!-- CHANGED: direct to Gumroad product options -->
-      <a
-        class="btn"
-        href="https://dearhuman2.gumroad.com/l/wnfjrl"
-        aria-label="Get your message now"
-        onclick="window.plausible && plausible('hero_cta_click')"
-      >
-        Get Your Message Now
-      </a>
-    </div>
-  </section>
 
-  <section class="section">
-    <h2 style="text-align: center; margin-bottom: 2rem;">They Said It Best</h2>
-    <div class="testimonials">
-      <div class="testimonial">
-        <p>“This message helped me heal. It felt honest — and so did I.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jordan">
-          <span>Jordan</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“My breakup needed compassion. DearHuman helped me deliver it with care.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avery">
-          <span>Avery</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I needed to set boundaries. The words were exactly what I needed.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Blake">
-          <span>Blake</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I didn't expect to feel so understood by something AI-generated. Wow.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/91.jpg" alt="Chris">
-          <span>Chris</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“I had no idea how to apologize. DearHuman made it meaningful.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sam">
-          <span>Sam</span>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>“The breakup message gave me closure. I'm truly grateful.”</p>
-        <div class="author">
-          <img src="https://randomuser.me/api/portraits/men/73.jpg" alt="Tyler">
-          <span>Tyler</span>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="section">
+<h2 style="text-align:center; margin-bottom:2rem;">They Said It Best</h2>
+<div class="testimonials">
+<div class="testimonial"><p>“This message helped me heal. It felt honest — and so did I.”</p><div class="author"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jordan"><span>Jordan</span></div></div>
+<div class="testimonial"><p>“My breakup needed compassion. DearHuman helped me deliver it with care.”</p><div class="author"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Avery"><span>Avery</span></div></div>
+<div class="testimonial"><p>“I needed to set boundaries. The words were exactly what I needed.”</p><div class="author"><img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Blake"><span>Blake</span></div></div>
+<div class="testimonial"><p>“I didn't expect to feel so understood by something AI‑generated. Wow.”</p><div class="author"><img src="https://randomuser.me/api/portraits/men/91.jpg" alt="Chris"><span>Chris</span></div></div>
+<div class="testimonial"><p>“I had no idea how to apologize. DearHuman made it meaningful.”</p><div class="author"><img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sam"><span>Sam</span></div></div>
+<div class="testimonial"><p>“The breakup message gave me closure. I'm truly grateful.”</p><div class="author"><img src="https://randomuser.me/api/portraits/men/73.jpg" alt="Tyler"><span>Tyler</span></div></div>
+</div>
+</section>
 
-  <section class="section">
-    <h2 style="text-align: center;">We Protect Your Privacy</h2>
-    <p style="text-align: center;">We don't store your messages. Your words are yours — generation and delivery are secure and confidential.</p>
-    <div class="trust">
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy icon"/>
-      </div>
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted service"/>
-      </div>
-      <div class="trust-icon">
-        <img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Secure message"/>
-      </div>
-    </div>
-  </section>
 
-  <footer>
-    &copy; 2025 DearHuman. All rights reserved.
-  </footer>
+<section class="section">
+<h2 style="text-align:center;">We Protect Your Privacy</h2>
+<p style="text-align:center;">We don't store your messages. Your words are yours — generation and delivery are secure and confidential.</p>
+<div class="trust">
+<div class="trust-icon"><img src="https://img.icons8.com/fluency/96/lock.png" alt="Privacy icon"/></div>
+<div class="trust-icon"><img src="https://img.icons8.com/fluency/96/thumbs-up.png" alt="Trusted service"/></div>
+<div class="trust-icon"><img src="https://img.icons8.com/fluency/96/secured-letter.png" alt="Secure message"/></div>
+</div>
+</section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const container = document.querySelector('.testimonials');
-      if (!container) return;
-      let scrollAmount = 0;
-      const firstCard = container.children[0];
-      if (!firstCard) return;
-      const slideWidth = firstCard.getBoundingClientRect().width + 24;
-      const speed = 4000;
-      setInterval(() => {
-        scrollAmount += slideWidth;
-        if (scrollAmount >= container.scrollWidth) scrollAmount = 0;
-        container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-      }, speed);
-    });
-  </script>
 
+<footer>&copy; 2025 DearHuman. All rights reserved.</footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+const c = document.querySelector('.testimonials'); if(!c) return;
+let x=0; const first=c.children[0]; if(!first) return; const w = first.getBoundingClientRect().width + 24; const speed=4000;
+setInterval(()=>{ x+=w; if(x>=c.scrollWidth) x=0; c.scrollTo({left:x, behavior:'smooth'}); }, speed);
+});
+</script>
 </body>
-</html>
+</html>u had earlier in minutes.
