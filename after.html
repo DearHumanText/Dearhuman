@@ -1,75 +1,162 @@
 <!doctype html>
-<button type="button" id="regenBtn" class="btn btn-secondary">Regenerate</button>
-<span class="tiny">Unlimited regenerates included.</span>
-</div>
-<div class="tiny" style="margin-top:6px">We don’t store your message.</div>
-</form>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DearHuman – Your Message</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    :root{ --accent:#FF6B6B; --bg:#f9fafb; --ink:#0f172a; --card:#ffffff; --ring:rgba(17,24,39,.08); --grad1:#6e8efb; --grad2:#a777e3; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .hero{background:linear-gradient(135deg,var(--grad1),var(--grad2));color:#fff;padding:40px 20px;text-align:center}
+    .wrap{max-width:960px;margin:0 auto;padding:28px 20px 64px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px var(--ring);padding:20px}
+    h1{font-size:28px;margin:0 0 6px}
+    p.lead{margin:0 0 18px;color:#e5e7eb}
+    label{display:block;font-weight:600;margin:14px 0 6px}
+    input,select,textarea{width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:16px;background:#fff;color:var(--ink)}
+    textarea{min-height:140px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .btns{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+    .btn{appearance:none;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer;text-decoration:none}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-secondary{background:#eef2ff;color:#374151}
+    .tiny{font-size:12px;color:#64748b}
+    .out{white-space:pre-wrap;background:#fff;border:1px solid #e5e7eb;color:var(--ink);border-radius:12px;padding:16px;margin-top:16px}
+    @media (max-width:720px){.row{grid-template-columns:1fr}}
+  </style>
+  <script defer data-domain="dearhumantext.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <h1>Your Message Builder</h1>
+    <p class="lead">Tell us the details and tone. We’ll craft the words.</p>
+  </header>
 
+  <main class="wrap">
+    <div class="card">
+      <form id="msgForm">
+        <div class="row">
+          <div>
+            <label for="messageType">What kind of message?</label>
+            <select id="messageType" required>
+              <option value="breakup">Breakup</option>
+              <option value="apology">Apology</option>
+              <option value="boundary">Set a boundary</option>
+              <option value="conflict">Conflict resolution</option>
+              <option value="thankyou">Thank you</option>
+              <option value="condolence">Condolence</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div>
+            <label for="tone">Tone</label>
+            <select id="tone" required>
+              <option>Warm</option>
+              <option>Calm</option>
+              <option>Direct</option>
+              <option>Compassionate</option>
+              <option>Professional</option>
+              <option>Apologetic</option>
+              <option>Empathetic</option>
+              <option>Encouraging</option>
+              <option>Diplomatic</option>
+              <option>Firm but kind</option>
+              <option>Gentle</option>
+              <option>Reassuring</option>
+              <option>Respectful</option>
+              <option>Supportive</option>
+              <option>Concise</option>
+              <option>Hopeful</option>
+              <option>Neutral</option>
+              <option>Lightly humorous</option>
+            </select>
+          </div>
+        </div>
 
-<div id="result" class="out" style="display:none"></div>
-</div>
-</main>
+        <label for="recipient">Who is it for?</label>
+        <input id="recipient" type="text" placeholder="e.g., My ex (Sarah) • My boss (Mr. Patel) • My roommate (Jake)" />
 
+        <label for="say">What do you want to say?</label>
+        <textarea id="say" placeholder="e.g., I care about you, but I need to step away. I’d like to end our relationship kindly and return your things this weekend."></textarea>
 
-<script>
-// Track real purchases (Gumroad appends sale_id/purchase_id when redirecting)
-const params = new URLSearchParams(location.search);
-if ((params.get('sale_id') || params.get('purchase_id')) && window.plausible) {
-plausible('purchase', { props: { tier: 'unlimited' } });
-}
+        <label for="context">Anything else we should know? <span class="tiny">(optional)</span></label>
+        <textarea id="context" placeholder="Key facts, phrases to include or avoid, boundaries, timing, history…"></textarea>
 
+        <div class="btns">
+          <button type="submit" id="generateBtn" class="btn btn-primary">Generate</button>
+          <button type="button" id="regenBtn" class="btn btn-secondary">Regenerate</button>
+          <span class="tiny">Unlimited regenerates included.</span>
 
-// Stable client token (for future features/analytics)
-let clientToken = localStorage.getItem('dh.client');
-if (!clientToken) {
-clientToken = (crypto.randomUUID && crypto.randomUUID()) || Math.random().toString(36).slice(2);
-localStorage.setItem('dh.client', clientToken);
-}
+          <!-- Optional: back-to-product button after purchase -->
+          <a id="productBtn"
+             href="https://dearhuman2.gumroad.com/l/YOUR_UNLIMITED_SLUG"
+             class="btn btn-secondary" target="_blank" rel="noopener" style="display:none">
+            Get Another Message
+          </a>
+        </div>
+        <div class="tiny" style="margin-top:6px">We don’t store your message.</div>
+      </form>
 
+      <div id="result" class="out" style="display:none"></div>
+    </div>
+  </main>
 
-const result = document.getElementById('result');
-const form = document.getElementById('msgForm');
-const generateBtn = document.getElementById('generateBtn');
-const regenBtn = document.getElementById('regenBtn');
+  <script>
+    // Show product button if we came from a real Gumroad checkout
+    const params = new URLSearchParams(location.search);
+    if ((params.get('sale_id') || params.get('purchase_id'))) {
+      document.getElementById('productBtn').style.display = 'inline-block';
+      window.plausible && plausible('purchase', { props: { tier: 'unlimited' } });
+    }
 
+    // Stable client token
+    let clientToken = localStorage.getItem('dh.client');
+    if (!clientToken) {
+      clientToken = (crypto.randomUUID && crypto.randomUUID()) || Math.random().toString(36).slice(2);
+      localStorage.setItem('dh.client', clientToken);
+    }
 
-async function callGenerate(isRegen){
-generateBtn.disabled = true; regenBtn.disabled = true;
-generateBtn.textContent = isRegen ? 'Regenerating…' : 'Generating…';
+    const result = document.getElementById('result');
+    const form = document.getElementById('msgForm');
+    const generateBtn = document.getElementById('generateBtn');
+    const regenBtn = document.getElementById('regenBtn');
 
+    async function callGenerate(isRegen){
+      generateBtn.disabled = true; regenBtn.disabled = true;
+      generateBtn.textContent = isRegen ? 'Regenerating…' : 'Generating…';
 
-const payload = {
-tier: 'unlimited',
-messageType: document.getElementById('messageType').value,
-tone: document.getElementById('tone').value,
-recipient: document.getElementById('recipient').value,
-say: document.getElementById('say').value,
-context: document.getElementById('context').value,
-clientToken
-};
+      const payload = {
+        tier: 'unlimited',
+        messageType: document.getElementById('messageType').value,
+        tone: document.getElementById('tone').value,
+        recipient: document.getElementById('recipient').value,
+        say: document.getElementById('say').value,
+        context: document.getElementById('context').value,
+        clientToken
+      };
 
+      try {
+        const res = await fetch('/.netlify/functions/generate', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        result.style.display = 'block';
+        result.textContent = data.message || data.text || 'Success, but no text returned.';
+        window.plausible && plausible(isRegen ? 'regen' : 'generate', { props: { tier: 'unlimited' } });
+      } catch (e) {
+        console.error(e);
+        alert('Something went wrong generating your message.');
+      } finally {
+        generateBtn.textContent = 'Generate';
+        generateBtn.disabled = false; regenBtn.disabled = false;
+      }
+    }
 
-try {
-const res = await fetch('/.netlify/functions/generate', {
-method:'POST', headers:{'Content-Type':'application/json'},
-body: JSON.stringify(payload)
-});
-const data = await res.json();
-result.style.display = 'block';
-result.textContent = data.message || data.text || 'Success, but no text returned.';
-window.plausible && plausible(isRegen ? 'regen' : 'generate', { props: { tier: 'unlimited' } });
-} catch (e) {
-console.error(e);
-alert('Something went wrong generating your message.');
-} finally {
-generateBtn.textContent = 'Generate';
-generateBtn.disabled = false; regenBtn.disabled = false;
-}
-}
-
-
-form.addEventListener('submit', (e)=>{ e.preventDefault(); callGenerate(false); });
-regenBtn.addEventListener('click', ()=> callGenerate(true));
-</script>
+    form.addEventListener('submit', (e)=>{ e.preventDefault(); callGenerate(false); });
+    regenBtn.addEventListener('click', ()=> callGenerate(true));
+  </script>
 </body>
 </html>
